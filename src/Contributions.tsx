@@ -7,28 +7,24 @@ import { format, isBefore, isSameMonth, startOfDay } from "date-fns";
 
 export function Contributions() {
   const [container, { width }] = useMeasure<HTMLDivElement>();
-  const { isLoading, data, hasPreviousPage, fetchPreviousPage } =
+  const { isLoading, isFetching, data, hasPreviousPage, fetchPreviousPage } =
     useContributionsCalendar();
   const boxSize = (width - Y_AXIS_LABEL_SPACE - BOX_GAP * 6) / 7;
   const height = useMemo(() => {
-    if (!data?.pages) return 100;
-    const computed = data.pages.reduce((sum, page) => {
+    if (!data?.pages) return MIN_HEIGHT;
+    const computed = data.pages.reduce(function computeHeight(sum, page) {
       const { weeks } =
         page.viewer.contributionsCollection.contributionCalendar;
       return sum + weeks.length * (boxSize + BOX_GAP);
     }, 0);
-    return Math.max(computed, 100);
+    return Math.max(computed + X_AXIS_LABEL_SPACE, MIN_HEIGHT);
   }, [data?.pages, boxSize]);
-  let yOffset = 0;
+  let yOffset = X_AXIS_LABEL_SPACE;
   let lastLabeledWeek: Date;
 
   return (
     <div ref={container}>
-      <svg
-        height={height}
-        viewBox={`0 0 ${width} ${height}`}
-        style={{ width, background: "rgba(125, 0, 125, 0.4)" }}
-      >
+      <svg height={height} viewBox={`0 0 ${width} ${height}`}>
         {isLoading ? (
           <text
             textAnchor="middle"
@@ -39,70 +35,96 @@ export function Contributions() {
             Loading...
           </text>
         ) : (
-          data!.pages.map((page) => {
-            const { startedAt, endedAt, contributionCalendar } =
-              page.viewer.contributionsCollection;
+          <>
+            <g>
+              <text x={boxSize + BOX_GAP} y={0} dominantBaseline="hanging">
+                Mon
+              </text>
+              <text
+                x={(boxSize + BOX_GAP) * 3}
+                y={0}
+                dominantBaseline="hanging"
+              >
+                Wed
+              </text>
+              <text
+                x={(boxSize + BOX_GAP) * 5}
+                y={0}
+                dominantBaseline="hanging"
+              >
+                Fri
+              </text>
+            </g>
+            {data!.pages.map((page) => {
+              const { startedAt, endedAt, contributionCalendar } =
+                page.viewer.contributionsCollection;
 
-            return (
-              <g key={`${startedAt}-${endedAt}`}>
-                {contributionCalendar.weeks.map((week) => {
-                  const firstDay = new Date(week.firstDay);
-                  const showLabel =
-                    !lastLabeledWeek || !isSameMonth(lastLabeledWeek, firstDay);
-                  let markup = (
-                    <g key={week.firstDay}>
-                      {week.contributionDays.map((day, i) => {
-                        const alpha =
-                          day.contributionLevel === "NONE"
-                            ? 0.1
-                            : day.contributionLevel === "FIRST_QUARTILE"
-                            ? 0.25
-                            : day.contributionLevel === "SECOND_QUARTILE"
-                            ? 0.5
-                            : day.contributionLevel === "THIRD_QUARTILE"
-                            ? 0.75
-                            : 1;
+              return (
+                <g key={`${startedAt}-${endedAt}`}>
+                  {contributionCalendar.weeks.map((week) => {
+                    const firstDay = new Date(week.firstDay);
+                    const showLabel =
+                      !lastLabeledWeek ||
+                      !isSameMonth(lastLabeledWeek, firstDay);
+                    let markup = (
+                      <g key={week.firstDay}>
+                        {week.contributionDays.map((day, i) => {
+                          const alpha =
+                            day.contributionLevel === "NONE"
+                              ? 0.1
+                              : day.contributionLevel === "FIRST_QUARTILE"
+                              ? 0.25
+                              : day.contributionLevel === "SECOND_QUARTILE"
+                              ? 0.5
+                              : day.contributionLevel === "THIRD_QUARTILE"
+                              ? 0.75
+                              : 1;
 
-                        return (
-                          <rect
-                            key={day.date}
-                            x={i * (boxSize + BOX_GAP)}
-                            y={yOffset}
-                            width={boxSize}
-                            height={boxSize}
-                            data-level={day.contributionLevel}
-                            data-count={day.contributionCount}
-                            data-date={day.date}
-                            fill={`rgba(0, 255, 0, ${alpha})`}
-                          />
-                        );
-                      })}
-                      {showLabel && (
-                        <text
-                          y={yOffset + boxSize / 2}
-                          x={(boxSize + BOX_GAP) * 7}
-                          dominantBaseline="middle"
-                        >
-                          {format(new Date(week.firstDay), "MMM yy")}
-                        </text>
-                      )}
-                    </g>
-                  );
+                          return (
+                            <rect
+                              ry={4}
+                              rx={4}
+                              key={day.date}
+                              x={i * (boxSize + BOX_GAP)}
+                              y={yOffset}
+                              width={boxSize}
+                              height={boxSize}
+                              data-level={day.contributionLevel}
+                              data-count={day.contributionCount}
+                              data-date={day.date}
+                              fill={`rgba(0, 255, 0, ${alpha})`}
+                            />
+                          );
+                        })}
+                        {showLabel && (
+                          <text
+                            y={yOffset + boxSize / 2}
+                            x={(boxSize + BOX_GAP) * 7}
+                            dominantBaseline="middle"
+                          >
+                            {format(new Date(week.firstDay), "MMM yy")}
+                          </text>
+                        )}
+                      </g>
+                    );
 
-                  yOffset += boxSize + BOX_GAP;
-                  if (showLabel) {
-                    lastLabeledWeek = firstDay;
-                  }
+                    yOffset += boxSize + BOX_GAP;
+                    if (showLabel) {
+                      lastLabeledWeek = firstDay;
+                    }
 
-                  return markup;
-                })}
-              </g>
-            );
-          })
+                    return markup;
+                  })}
+                </g>
+              );
+            })}
+          </>
         )}
       </svg>
       {hasPreviousPage && (
-        <button onClick={() => fetchPreviousPage()}>Show More</button>
+        <button disabled={isFetching} onClick={() => fetchPreviousPage()}>
+          Show More
+        </button>
       )}
     </div>
   );
@@ -262,4 +284,6 @@ interface ContributionsCalendarQuery {
 }
 
 const Y_AXIS_LABEL_SPACE = 80;
+const X_AXIS_LABEL_SPACE = 40;
 const BOX_GAP = 2;
+const MIN_HEIGHT = 100;
