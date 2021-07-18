@@ -4,13 +4,13 @@ import token from "./github.secret.json";
 import { LegacyRef, useLayoutEffect, useMemo, useState } from "react";
 import subYears from "date-fns/subYears";
 import addYears from "date-fns/addYears";
-import { isAfter, isSameDay, startOfDay } from "date-fns";
+import { format, isAfter, isSameDay, isSameMonth, startOfDay } from "date-fns";
 
 export function Contributions() {
   const [container, { width }] = useMeasure<HTMLDivElement>();
   const { isLoading, data, hasPreviousPage, fetchPreviousPage } =
     useContributionsCalendar();
-  const boxSize = (width - BOX_GAP * 6) / 7;
+  const boxSize = (width - Y_AXIS_LABEL_SPACE - BOX_GAP * 6) / 7;
   const height = useMemo(() => {
     if (!data?.pages) return 100;
     const computed = data.pages.reduce((sum, page) => {
@@ -21,6 +21,7 @@ export function Contributions() {
     return Math.max(computed, 100);
   }, [data?.pages, boxSize]);
   let yOffset = 0;
+  let lastLabeledWeek: Date;
 
   return (
     <div ref={container}>
@@ -42,9 +43,13 @@ export function Contributions() {
           data!.pages.map((page) => {
             const { startedAt, endedAt, contributionCalendar } =
               page.viewer.contributionsCollection;
+
             return (
               <g key={`${startedAt}-${endedAt}`}>
                 {contributionCalendar.weeks.map((week) => {
+                  const firstDay = new Date(week.firstDay);
+                  const showLabel =
+                    !lastLabeledWeek || !isSameMonth(lastLabeledWeek, firstDay);
                   let markup = (
                     <g key={week.firstDay}>
                       {week.contributionDays.map((day, i) => {
@@ -58,6 +63,7 @@ export function Contributions() {
                             : day.contributionLevel === "THIRD_QUARTILE"
                             ? 0.75
                             : 1;
+
                         return (
                           <rect
                             key={day.date}
@@ -67,14 +73,27 @@ export function Contributions() {
                             height={boxSize}
                             data-level={day.contributionLevel}
                             data-count={day.contributionCount}
+                            data-date={day.date}
                             fill={`rgba(0, 255, 0, ${alpha})`}
                           />
                         );
                       })}
+                      {showLabel && (
+                        <text
+                          y={yOffset + boxSize / 2}
+                          x={(boxSize + BOX_GAP) * 7}
+                          dominantBaseline="middle"
+                        >
+                          {format(new Date(week.firstDay), "MMM yy")}
+                        </text>
+                      )}
                     </g>
                   );
 
                   yOffset += boxSize + BOX_GAP;
+                  if (showLabel) {
+                    lastLabeledWeek = firstDay;
+                  }
 
                   return markup;
                 })}
@@ -100,10 +119,6 @@ function useContributionsCalendar(
     ["contributions", from.toISOString(), to.toISOString()],
     ({ pageParam = [from.toISOString(), to.toISOString()] }) => {
       const [start, stop] = pageParam;
-      // const collection =
-      //   start && stop
-      //     ? `contributionsCollection(from: "${start}", to: "${stop}")`
-      //     : `contributionsCollection`;
 
       return client.request(
         gql`
@@ -114,6 +129,7 @@ function useContributionsCalendar(
             endedAt
             contributionCalendar {
               weeks {
+                firstDay
                 contributionDays {
                   contributionCount
                   contributionLevel
@@ -188,29 +204,31 @@ function useMeasure<NodeType extends Element>(): [LegacyRef<NodeType>, Box] {
   return [ref, rect];
 }
 
+interface ContributionWeek {
+  firstDay: string;
+  contributionDays: Array<{
+    contributionCount: number;
+    contributionLevel:
+      | "FIRST_QUARTILE"
+      | "SECOND_QUARTILE"
+      | "THIRD_QUARTILE"
+      | "FOURTH_QUARTILE"
+      | "NONE";
+    date: string;
+  }>;
+}
+
 interface ContributionsCalendarQuery {
   viewer: {
     contributionsCollection: {
       startedAt: string;
       endedAt: string;
       contributionCalendar: {
-        weeks: Array<{
-          firstDay: string;
-          contributionDays: Array<{
-            contributionCount: number;
-            contributionLevel:
-              | "FIRST_QUARTILE"
-              | "SECOND_QUARTILE"
-              | "THIRD_QUARTILE"
-              | "FOURTH_QUARTILE"
-              | "NONE";
-            date: string;
-          }>;
-        }>;
+        weeks: Array<ContributionWeek>;
       };
     };
   };
 }
 
-const Y_AXIS_LABEL_SPACE = 0;
+const Y_AXIS_LABEL_SPACE = 80;
 const BOX_GAP = 2;
