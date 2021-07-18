@@ -1,132 +1,89 @@
 import { useInfiniteQuery } from "react-query";
 import { gql, GraphQLClient } from "graphql-request";
 import token from "./github.secret.json";
-import { LegacyRef, useLayoutEffect, useMemo, useState } from "react";
+import React from "react";
 import subYears from "date-fns/subYears";
 import { format, isBefore, isSameMonth, startOfDay } from "date-fns";
 
+import "./contributions.scss";
+
 export function Contributions() {
-  const [container, { width }] = useMeasure<HTMLDivElement>();
   const { isLoading, isFetching, data, hasPreviousPage, fetchPreviousPage } =
     useContributionsCalendar();
-  const boxSize = (width - Y_AXIS_LABEL_SPACE - BOX_GAP * 6) / 7;
-  const height = useMemo(() => {
-    if (!data?.pages) return MIN_HEIGHT;
-    const computed = data.pages.reduce(function computeHeight(sum, page) {
-      const { weeks } =
-        page.viewer.contributionsCollection.contributionCalendar;
-      return sum + weeks.length * (boxSize + BOX_GAP);
-    }, 0);
-    return Math.max(computed + X_AXIS_LABEL_SPACE, MIN_HEIGHT);
-  }, [data?.pages, boxSize]);
-  let yOffset = X_AXIS_LABEL_SPACE;
   let lastLabeledWeek: Date;
 
   return (
-    <div ref={container}>
-      <svg height={height} viewBox={`0 0 ${width} ${height}`}>
-        {isLoading ? (
-          <text
-            textAnchor="middle"
-            x={width / 2}
-            y={50}
-            dominantBaseline="hanging"
-          >
-            Loading...
-          </text>
-        ) : (
-          <>
-            <g>
-              <text x={boxSize + BOX_GAP} y={0} dominantBaseline="hanging">
-                Mon
-              </text>
-              <text
-                x={(boxSize + BOX_GAP) * 3}
-                y={0}
-                dominantBaseline="hanging"
-              >
-                Wed
-              </text>
-              <text
-                x={(boxSize + BOX_GAP) * 5}
-                y={0}
-                dominantBaseline="hanging"
-              >
-                Fri
-              </text>
-            </g>
+    <section className="contributions">
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <header>
+            <span className="calendar-day-1">Mon</span>
+            <span className="calendar-day-3">Wed</span>
+            <span className="calendar-day-5">Fri</span>
+          </header>
+          <main>
             {data!.pages.map((page) => {
               const { startedAt, endedAt, contributionCalendar } =
                 page.viewer.contributionsCollection;
 
               return (
-                <g key={`${startedAt}-${endedAt}`}>
+                <React.Fragment key={`${startedAt}-${endedAt}`}>
                   {contributionCalendar.weeks.map((week) => {
                     const firstDay = new Date(week.firstDay);
                     const showLabel =
                       !lastLabeledWeek ||
                       !isSameMonth(lastLabeledWeek, firstDay);
                     let markup = (
-                      <g key={week.firstDay}>
-                        {week.contributionDays.map((day, i) => {
-                          const alpha =
-                            day.contributionLevel === "NONE"
-                              ? 0.1
-                              : day.contributionLevel === "FIRST_QUARTILE"
-                              ? 0.25
-                              : day.contributionLevel === "SECOND_QUARTILE"
-                              ? 0.5
-                              : day.contributionLevel === "THIRD_QUARTILE"
-                              ? 0.75
-                              : 1;
+                      <React.Fragment key={week.firstDay}>
+                        {week.contributionDays.map((day) => {
+                          const [year, month, date] = day.date
+                            .split("-")
+                            .map(Number);
+                          const parsed = new Date(year, month - 1, date);
+                          const offset = parsed.getDay() % 7;
 
                           return (
-                            <rect
-                              ry={4}
-                              rx={4}
+                            <time
                               key={day.date}
-                              x={i * (boxSize + BOX_GAP)}
-                              y={yOffset}
-                              width={boxSize}
-                              height={boxSize}
+                              data-day={day.date}
+                              data-parsed={parsed}
                               data-level={day.contributionLevel}
-                              data-count={day.contributionCount}
-                              data-date={day.date}
-                              fill={`rgba(0, 255, 0, ${alpha})`}
+                              dateTime={format(
+                                new Date(day.date),
+                                "yyyy-MM-dd"
+                              )}
+                              className={`calendar-day-${offset}`}
                             />
                           );
                         })}
                         {showLabel && (
-                          <text
-                            y={yOffset + boxSize / 2}
-                            x={(boxSize + BOX_GAP) * 7}
-                            dominantBaseline="middle"
-                          >
+                          <span className="calendar-week-label">
                             {format(new Date(week.firstDay), "MMM yy")}
-                          </text>
+                          </span>
                         )}
-                      </g>
+                      </React.Fragment>
                     );
 
-                    yOffset += boxSize + BOX_GAP;
                     if (showLabel) {
                       lastLabeledWeek = firstDay;
                     }
 
                     return markup;
                   })}
-                </g>
+                </React.Fragment>
               );
             })}
-          </>
-        )}
-      </svg>
+          </main>
+        </>
+      )}
       {hasPreviousPage && (
         <button disabled={isFetching} onClick={() => fetchPreviousPage()}>
           Show More
         </button>
       )}
-    </div>
+    </section>
   );
 }
 
@@ -222,41 +179,6 @@ function useContributionsCalendar(
   );
 }
 
-class Box {
-  x = 0;
-  y = 0;
-  width = 0;
-  height = 0;
-  top = 0;
-  left = 0;
-  bottom = 0;
-  right = 0;
-}
-
-function useMeasure<NodeType extends Element>(): [LegacyRef<NodeType>, Box] {
-  const [element, ref] = useState<NodeType | null>(null);
-  const [rect, setRect] = useState(new Box());
-
-  const observer = useMemo(() => {
-    return new window.ResizeObserver(([entry]) => {
-      if (!entry) return;
-      setRect(entry.contentRect);
-    });
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!element) return;
-
-    observer.observe(element);
-
-    return function onUnmount() {
-      observer.disconnect();
-    };
-  }, [element, observer]);
-
-  return [ref, rect];
-}
-
 interface ContributionWeek {
   firstDay: string;
   contributionDays: Array<{
@@ -282,8 +204,3 @@ interface ContributionsCalendarQuery {
     };
   };
 }
-
-const Y_AXIS_LABEL_SPACE = 80;
-const X_AXIS_LABEL_SPACE = 40;
-const BOX_GAP = 2;
-const MIN_HEIGHT = 100;
