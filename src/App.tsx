@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Contributions } from "./Contributions";
 
