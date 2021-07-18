@@ -3,8 +3,7 @@ import { gql, GraphQLClient } from "graphql-request";
 import token from "./github.secret.json";
 import { LegacyRef, useLayoutEffect, useMemo, useState } from "react";
 import subYears from "date-fns/subYears";
-import addYears from "date-fns/addYears";
-import { format, isAfter, isSameDay, isSameMonth, startOfDay } from "date-fns";
+import { format, isBefore, isSameMonth, startOfDay } from "date-fns";
 
 export function Contributions() {
   const [container, { width }] = useMeasure<HTMLDivElement>();
@@ -149,18 +148,24 @@ function useContributionsCalendar(
     },
     {
       staleTime: Infinity,
-      getNextPageParam: (lastPage) => {
-        if (!lastPage) return;
+      getPreviousPageParam: (_, pages) => {
+        const nextPage = pages.reduce(
+          (
+            earliestPage: ContributionsCalendarQuery,
+            page: ContributionsCalendarQuery
+          ) => {
+            if (
+              isBefore(
+                new Date(page.viewer.contributionsCollection.endedAt),
+                new Date(earliestPage.viewer.contributionsCollection.endedAt)
+              )
+            ) {
+              return page;
+            }
 
-        const contributions = lastPage.viewer.contributionsCollection;
-        const endedAt = new Date(contributions.endedAt);
-        const today = new Date();
-
-        if (isSameDay(endedAt, today) || isAfter(endedAt, today)) return;
-
-        return [endedAt, addYears(endedAt, 1).toISOString()];
-      },
-      getPreviousPageParam: (nextPage) => {
+            return earliestPage;
+          }
+        );
         if (!nextPage) return;
 
         const { startedAt } = nextPage.viewer.contributionsCollection;
