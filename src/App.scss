@@ -2,7 +2,7 @@ html,
 body {
   width: 100%;
   min-height: 100%;
-  overflow-x: hidden;
+  max-width: 100%;
   font-family: "Signika", sans-serif;
 }
 
@@ -10,4 +10,18 @@ html {
   background: black;
   color: white;
   fill: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Work Sans", sans-serif;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 100 1000;
 }

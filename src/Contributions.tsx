@@ -14,6 +14,7 @@ export function Contributions() {
 
   return (
     <section className="contributions">
+      <h2>Contributions</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -47,20 +48,16 @@ export function Contributions() {
                           return (
                             <time
                               key={day.date}
-                              data-day={day.date}
-                              data-parsed={parsed}
                               data-level={day.contributionLevel}
-                              dateTime={format(
-                                new Date(day.date),
-                                "yyyy-MM-dd"
-                              )}
+                              data-contribution-count={day.contributionCount}
+                              dateTime={format(new Date(parsed), "yyyy-MM-dd")}
                               className={`calendar-day-${offset}`}
                             />
                           );
                         })}
                         {showLabel && (
                           <span className="calendar-week-label">
-                            {format(new Date(week.firstDay), "MMM yy")}
+                            {format(new Date(week.firstDay), "MMM yyyy")}
                           </span>
                         )}
                       </React.Fragment>

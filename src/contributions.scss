@@ -2,8 +2,15 @@
   header,
   main {
     display: grid;
-    grid-template-columns: repeat(7, 1fr) [yAxis] auto;
     gap: 4px;
+    grid-template-columns: repeat(7, 1fr) [yAxis] minmax(60px, 25%);
+  }
+
+  header {
+    font-size: 1rem;
+    text-align: center;
+    position: sticky;
+    top: 0.25rem;
   }
 
   time {
@@ -31,16 +38,21 @@
       background: rgba(0, 255, 0, 1);
     }
   }
-}
 
-@for $day from 1 through 7 {
-  .calendar-day-#{$day - 1} {
-    grid-column: $day;
+  @for $day from 1 through 7 {
+    .calendar-day-#{$day - 1} {
+      grid-column: $day;
+    }
   }
-}
 
-.calendar-week-label {
-  grid-column: yAxis;
-  display: flex;
-  align-items: center;
+  .calendar-week-label {
+    grid-column: yAxis;
+    display: flex;
+    align-items: center;
+    padding-left: 0.5rem;
+    position: sticky;
+    top: 0.25rem;
+    font-size: 1rem;
+    background: black;
+  }
 }
