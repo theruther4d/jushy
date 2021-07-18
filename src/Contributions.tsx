@@ -148,6 +148,7 @@ function useContributionsCalendar(
       );
     },
     {
+      staleTime: Infinity,
       getNextPageParam: (lastPage) => {
         if (!lastPage) return;
 
@@ -164,6 +165,31 @@ function useContributionsCalendar(
 
         const { startedAt } = nextPage.viewer.contributionsCollection;
         return [subYears(new Date(startedAt), 1).toISOString(), startedAt];
+      },
+      select: function sortDescending(data) {
+        return {
+          pages: data.pages
+            .sort((a, b) => {
+              return (
+                Number(new Date(b.viewer.contributionsCollection.startedAt)) -
+                Number(new Date(a.viewer.contributionsCollection.startedAt))
+              );
+            })
+            .map((page) => {
+              page.viewer.contributionsCollection.contributionCalendar.weeks =
+                page.viewer.contributionsCollection.contributionCalendar.weeks.sort(
+                  (a, b) => {
+                    return (
+                      Number(new Date(b.firstDay)) -
+                      Number(new Date(a.firstDay))
+                    );
+                  }
+                );
+
+              return page;
+            }),
+          pageParams: data.pageParams,
+        };
       },
     }
   );
