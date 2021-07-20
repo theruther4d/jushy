@@ -3,7 +3,15 @@ import { gql, GraphQLClient } from "graphql-request";
 import token from "./github.secret.json";
 import React from "react";
 import subYears from "date-fns/subYears";
-import { addDays, format, isBefore, isSameMonth, startOfDay } from "date-fns";
+import {
+  addDays,
+  format,
+  isBefore,
+  isSameMonth,
+  isSameWeek,
+  startOfDay,
+  subDays,
+} from "date-fns";
 
 import "./contributions.scss";
 
@@ -39,15 +47,17 @@ export function Contributions() {
                 <React.Fragment key={`${startedAt}-${endedAt}`}>
                   {contributionCalendar.weeks.map((week) => {
                     const days = week.contributionDays;
-                    const placeholderSpots = [...new Array(7 - days.length)];
+                    const isCurrentWeek = week.contributionDays.some((day) =>
+                      isSameWeek(new Date(day.date), today)
+                    );
+                    const placeholderSpots = isCurrentWeek
+                      ? [...new Array(7 - days.length)]
+                      : [];
 
                     return (
                       <React.Fragment key={week.firstDay}>
                         {days.map((day) => {
-                          const [year, month, date] = day.date
-                            .split("-")
-                            .map(Number);
-                          const parsed = new Date(year, month - 1, date);
+                          const parsed = parseDate(day.date);
                           const offset = parsed.getDay() % 7;
 
                           return (
@@ -69,7 +79,7 @@ export function Contributions() {
                               key={date.toISOString()}
                               data-level="NONE"
                               data-contribution-count={0}
-                              className={`calendar-day-${offset}`}
+                              className={`placeholder calendar-day-${offset}`}
                             />
                           );
                         })}
@@ -88,7 +98,7 @@ export function Contributions() {
               return (
                 <React.Fragment key={`${startedAt}-${endedAt}`}>
                   {contributionCalendar.weeks.map((week) => {
-                    const firstDay = new Date(week.firstDay);
+                    const firstDay = parseDate(week.firstDay);
                     const showLabel =
                       !lastLabeledWeek ||
                       !isSameMonth(lastLabeledWeek, firstDay);
@@ -128,6 +138,12 @@ export function Contributions() {
 const client = new GraphQLClient("https://api.github.com/graphql");
 const today = new Date();
 
+function parseDate(input: string) {
+  const [, raw] = /^(\d\d\d\d-\d\d-\d\d)/.exec(input) ?? ["", ""];
+  const [year, month, date] = raw.split("-").map(Number);
+  return new Date(year, month - 1, date);
+}
+
 function useContributionsCalendar(
   from = startOfDay(subYears(today, 1)),
   to = startOfDay(today)
@@ -136,6 +152,10 @@ function useContributionsCalendar(
     ["contributions", from.toISOString(), to.toISOString()],
     ({ pageParam = [from.toISOString(), to.toISOString()] }) => {
       const [start, stop] = pageParam;
+      const headers = {
+        Authorization: `bearer ${token}`,
+      };
+      let variables;
 
       return client.request(
         gql`
@@ -158,10 +178,8 @@ function useContributionsCalendar(
         }
       }
     `,
-        undefined,
-        {
-          Authorization: `bearer ${token}`,
-        }
+        variables,
+        headers
       );
     },
     {
@@ -174,8 +192,8 @@ function useContributionsCalendar(
           ) => {
             if (
               isBefore(
-                new Date(page.viewer.contributionsCollection.endedAt),
-                new Date(earliestPage.viewer.contributionsCollection.endedAt)
+                parseDate(page.viewer.contributionsCollection.endedAt),
+                parseDate(earliestPage.viewer.contributionsCollection.endedAt)
               )
             ) {
               return page;
@@ -186,8 +204,27 @@ function useContributionsCalendar(
         );
         if (!nextPage) return;
 
-        const { startedAt } = nextPage.viewer.contributionsCollection;
-        return [subYears(new Date(startedAt), 1).toISOString(), startedAt];
+        const { contributionCalendar } =
+          nextPage.viewer.contributionsCollection;
+        const earliestDate = contributionCalendar.weeks.reduce(
+          (earliest: Date, week) => {
+            return week.contributionDays.reduce(
+              (weekEarliest: Date, day: ContributionDay) => {
+                const parsed = parseDate(day.date);
+                if (isBefore(parsed, weekEarliest)) {
+                  return parsed;
+                }
+
+                return weekEarliest;
+              },
+              earliest
+            );
+          },
+          today
+        );
+        const nextStart = subDays(earliestDate, 1);
+
+        return [subYears(nextStart, 1).toISOString(), nextStart.toISOString()];
       },
       select: function sortDescending(data) {
         return {
@@ -218,18 +255,20 @@ function useContributionsCalendar(
   );
 }
 
+interface ContributionDay {
+  contributionCount: number;
+  contributionLevel:
+    | "FIRST_QUARTILE"
+    | "SECOND_QUARTILE"
+    | "THIRD_QUARTILE"
+    | "FOURTH_QUARTILE"
+    | "NONE";
+  date: string;
+}
+
 interface ContributionWeek {
   firstDay: string;
-  contributionDays: Array<{
-    contributionCount: number;
-    contributionLevel:
-      | "FIRST_QUARTILE"
-      | "SECOND_QUARTILE"
-      | "THIRD_QUARTILE"
-      | "FOURTH_QUARTILE"
-      | "NONE";
-    date: string;
-  }>;
+  contributionDays: ContributionDay[];
 }
 
 interface ContributionsCalendarQuery {
@@ -238,7 +277,7 @@ interface ContributionsCalendarQuery {
       startedAt: string;
       endedAt: string;
       contributionCalendar: {
-        weeks: Array<ContributionWeek>;
+        weeks: ContributionWeek[];
       };
     };
   };

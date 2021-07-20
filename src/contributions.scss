@@ -10,9 +10,8 @@ $horizontal_breakpoint: 450px;
   @media all and (min-width: $horizontal_breakpoint) {
     display: grid;
     grid-template-areas:
-      ". xAxis"
-      "yAxis body"
-      "footer footer";
+      ". xAxis ."
+      "yAxis body footer";
     max-width: 100%;
     overflow-x: scroll;
   }
@@ -22,7 +21,7 @@ $horizontal_breakpoint: 450px;
     white-space: nowrap;
 
     .background {
-      padding: 0 0.5rem;
+      background: black;
     }
   }
 
@@ -34,6 +33,7 @@ $horizontal_breakpoint: 450px;
 
     @media all and (min-width: $horizontal_breakpoint) {
       grid-template-columns: unset;
+      row-gap: $gap;
     }
   }
 
@@ -77,12 +77,12 @@ $horizontal_breakpoint: 450px;
 
   aside {
     width: $sidebar_width;
+    padding-left: 0.5rem;
 
     .label,
     .spacer {
       display: flex;
       align-items: center;
-      padding-left: 0.5rem;
       position: sticky;
       top: 0.25rem;
       height: calc((100vw - #{$sidebar_width} - (#{$gap} * 6)) / 7);
@@ -97,6 +97,7 @@ $horizontal_breakpoint: 450px;
       grid-area: xAxis;
       width: unset;
       display: flex;
+      padding-left: 0;
 
       .label,
       .spacer {
@@ -111,12 +112,17 @@ $horizontal_breakpoint: 450px;
   footer {
     flex-basis: 100%;
 
+    button {
+      white-space: nowrap;
+    }
+
     @media all and (min-width: $horizontal_breakpoint) {
       grid-area: footer;
     }
   }
 
-  time {
+  time,
+  .placeholder {
     padding-bottom: 100%;
     display: block;
     height: 0;
