@@ -3,7 +3,7 @@ import { gql, GraphQLClient } from "graphql-request";
 import token from "./github.secret.json";
 import React from "react";
 import subYears from "date-fns/subYears";
-import { format, isBefore, isSameMonth, startOfDay } from "date-fns";
+import { addDays, format, isBefore, isSameMonth, startOfDay } from "date-fns";
 
 import "./contributions.scss";
 
@@ -13,16 +13,22 @@ export function Contributions() {
   let lastLabeledWeek: Date;
 
   return (
-    <section className="contributions">
+    <>
       <h2>Contributions</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <>
+        <section className="contributions">
           <header>
-            <span className="calendar-day-1">Mon</span>
-            <span className="calendar-day-3">Wed</span>
-            <span className="calendar-day-5">Fri</span>
+            <span className="label calendar-day-1">
+              <span className="background">Mon</span>
+            </span>
+            <span className="label calendar-day-3">
+              <span className="background">Wed</span>
+            </span>
+            <span className="label calendar-day-5">
+              <span className="background">Fri</span>
+            </span>
           </header>
           <main>
             {data!.pages.map((page) => {
@@ -32,13 +38,12 @@ export function Contributions() {
               return (
                 <React.Fragment key={`${startedAt}-${endedAt}`}>
                   {contributionCalendar.weeks.map((week) => {
-                    const firstDay = new Date(week.firstDay);
-                    const showLabel =
-                      !lastLabeledWeek ||
-                      !isSameMonth(lastLabeledWeek, firstDay);
-                    let markup = (
+                    const days = week.contributionDays;
+                    const placeholderSpots = [...new Array(7 - days.length)];
+
+                    return (
                       <React.Fragment key={week.firstDay}>
-                        {week.contributionDays.map((day) => {
+                        {days.map((day) => {
                           const [year, month, date] = day.date
                             .split("-")
                             .map(Number);
@@ -55,12 +60,46 @@ export function Contributions() {
                             />
                           );
                         })}
-                        {showLabel && (
-                          <span className="calendar-week-label">
-                            {format(new Date(week.firstDay), "MMM yyyy")}
-                          </span>
-                        )}
+                        {placeholderSpots.map((_, i) => {
+                          const date = addDays(today, i + 1);
+                          const offset = date.getDay() % 7;
+
+                          return (
+                            <span
+                              key={date.toISOString()}
+                              data-level="NONE"
+                              data-contribution-count={0}
+                              className={`calendar-day-${offset}`}
+                            />
+                          );
+                        })}
                       </React.Fragment>
+                    );
+                  })}
+                </React.Fragment>
+              );
+            })}
+          </main>
+          <aside>
+            {data!.pages.map((page) => {
+              const { startedAt, endedAt, contributionCalendar } =
+                page.viewer.contributionsCollection;
+
+              return (
+                <React.Fragment key={`${startedAt}-${endedAt}`}>
+                  {contributionCalendar.weeks.map((week) => {
+                    const firstDay = new Date(week.firstDay);
+                    const showLabel =
+                      !lastLabeledWeek ||
+                      !isSameMonth(lastLabeledWeek, firstDay);
+                    let markup = showLabel ? (
+                      <span className="label" key={week.firstDay}>
+                        <span className="background">
+                          {format(new Date(week.firstDay), "MMM yyyy")}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="spacer" key={week.firstDay} />
                     );
 
                     if (showLabel) {
@@ -72,23 +111,26 @@ export function Contributions() {
                 </React.Fragment>
               );
             })}
-          </main>
-        </>
+          </aside>
+          {hasPreviousPage && (
+            <footer>
+              <button disabled={isFetching} onClick={() => fetchPreviousPage()}>
+                Show More
+              </button>
+            </footer>
+          )}
+        </section>
       )}
-      {hasPreviousPage && (
-        <button disabled={isFetching} onClick={() => fetchPreviousPage()}>
-          Show More
-        </button>
-      )}
-    </section>
+    </>
   );
 }
 
 const client = new GraphQLClient("https://api.github.com/graphql");
+const today = new Date();
 
 function useContributionsCalendar(
-  from = startOfDay(subYears(new Date(), 1)),
-  to = startOfDay(new Date())
+  from = startOfDay(subYears(today, 1)),
+  to = startOfDay(today)
 ) {
   return useInfiniteQuery<ContributionsCalendarQuery>(
     ["contributions", from.toISOString(), to.toISOString()],

@@ -1,16 +1,119 @@
+$box_size: 1rem;
+$gap: 4px;
+$sidebar_width: 100px;
+$horizontal_breakpoint: 450px;
+
 .contributions {
+  display: flex;
+  flex-wrap: wrap;
+
+  @media all and (min-width: $horizontal_breakpoint) {
+    display: grid;
+    grid-template-areas:
+      ". xAxis"
+      "yAxis body"
+      "footer footer";
+    max-width: 100%;
+    overflow-x: scroll;
+  }
+
+  .label {
+    font-size: 0.75rem;
+    white-space: nowrap;
+
+    .background {
+      padding: 0 0.5rem;
+    }
+  }
+
   header,
   main {
     display: grid;
-    gap: 4px;
-    grid-template-columns: repeat(7, 1fr) [yAxis] minmax(60px, 25%);
+    gap: $gap;
+    grid-template-columns: repeat(7, 1fr);
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      grid-template-columns: unset;
+    }
   }
 
   header {
-    font-size: 1rem;
     text-align: center;
     position: sticky;
     top: 0.25rem;
+    grid-area: header;
+    flex-basis: 100%;
+    margin-right: $sidebar_width;
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      grid-area: yAxis;
+      margin-right: 1rem;
+      text-align: right;
+      // position: static;
+      top: unset;
+      left: 0;
+      display: grid;
+      grid-template-rows: repeat(7, $box_size);
+
+      [class^="calendar-day-"] {
+        height: $box_size;
+      }
+
+      @for $day from 1 through 7 {
+        .calendar-day-#{$day - 1} {
+          grid-row: $day;
+        }
+      }
+    }
+  }
+
+  main {
+    flex: 1;
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      grid-area: body;
+    }
+  }
+
+  aside {
+    width: $sidebar_width;
+
+    .label,
+    .spacer {
+      display: flex;
+      align-items: center;
+      padding-left: 0.5rem;
+      position: sticky;
+      top: 0.25rem;
+      height: calc((100vw - #{$sidebar_width} - (#{$gap} * 6)) / 7);
+      margin-bottom: $gap;
+    }
+
+    .spacer {
+      background: transparent;
+    }
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      grid-area: xAxis;
+      width: unset;
+      display: flex;
+
+      .label,
+      .spacer {
+        height: unset;
+        width: $box_size;
+        top: unset;
+        left: 0;
+      }
+    }
+  }
+
+  footer {
+    flex-basis: 100%;
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      grid-area: footer;
+    }
   }
 
   time {
@@ -37,22 +140,22 @@
     &[data-level="FOURTH_QUARTILE"] {
       background: rgba(0, 255, 0, 1);
     }
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      width: $box_size;
+      height: $box_size;
+      padding-bottom: 0;
+    }
   }
 
   @for $day from 1 through 7 {
     .calendar-day-#{$day - 1} {
       grid-column: $day;
-    }
-  }
 
-  .calendar-week-label {
-    grid-column: yAxis;
-    display: flex;
-    align-items: center;
-    padding-left: 0.5rem;
-    position: sticky;
-    top: 0.25rem;
-    font-size: 1rem;
-    background: black;
+      @media all and (min-width: $horizontal_breakpoint) {
+        grid-column: unset;
+        grid-row: $day;
+      }
+    }
   }
 }
