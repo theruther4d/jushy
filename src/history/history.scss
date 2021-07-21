@@ -1,6 +1,5 @@
 @import "../variables.scss";
 
-$padding: 1rem;
 $black: darken($primary, 35);
 $logo_area: 3rem;
 $logo_size: 1.5rem;
@@ -51,7 +50,7 @@ $horizontal_breakpoint: 724px;
     h3 {
       font-size: 2rem;
       line-height: 1.875rem;
-      padding: 0 calc(#{$padding} * 2);
+      padding: 0 calc(#{$card_padding} * 2);
       margin: 1.25rem 0 1.5rem;
       position: relative;
       z-index: 1;
@@ -67,11 +66,11 @@ $horizontal_breakpoint: 724px;
 
   dt,
   dd {
-    padding: 0 $padding 0 0;
+    padding: 0 $card_padding 0 0;
   }
 
   dl {
-    padding-left: calc(#{$logo_area} + (#{$padding} * 2));
+    padding-left: calc(#{$logo_area} + (#{$card_padding} * 2));
   }
 
   dt {
@@ -80,8 +79,8 @@ $horizontal_breakpoint: 724px;
   }
 
   dd {
-    margin-bottom: $padding;
-    padding-bottom: $padding;
+    margin-bottom: $card_padding;
+    padding-bottom: $card_padding;
     position: relative;
 
     &:after {
@@ -106,7 +105,7 @@ $horizontal_breakpoint: 724px;
   figure {
     margin: 0;
     position: absolute;
-    left: calc(-#{$logo_area} - #{$padding});
+    left: calc(-#{$logo_area} - #{$card_padding});
     top: -1.25rem;
     width: $logo_area;
     height: $logo_area;

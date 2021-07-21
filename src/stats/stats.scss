@@ -1,0 +1,59 @@
+@import "../variables.scss";
+
+.stats {
+  text-align: center;
+
+  main {
+    text-align: left;
+  }
+
+  @media all and (min-width: 724px) {
+    display: flex;
+
+    main {
+      margin-right: 1rem;
+    }
+  }
+
+  dl,
+  dt,
+  dd {
+    margin: 0;
+    padding: 0;
+  }
+
+  dl {
+    background: white;
+    color: black;
+    padding: 2rem 3rem;
+    border-radius: 1.5rem;
+    display: inline-block;
+    text-align: left;
+  }
+
+  dd,
+  dt {
+    border-left-style: solid;
+    border-left-width: 4px;
+    padding-left: 0.5rem;
+  }
+
+  dd {
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 600;
+    border-left-color: black;
+    display: flex;
+  }
+
+  dt {
+    font-size: 0.75rem;
+    font-weight: 300;
+    border-left-color: rgba(black, 0.25);
+    padding-bottom: 1.5rem;
+
+    &:last-of-type {
+      padding-bottom: 0;
+    }
+  }
+}

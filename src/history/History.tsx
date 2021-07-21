@@ -28,7 +28,7 @@ export function History() {
           History
         </h3>
         <dl>
-          {jobs.map((job) => {
+          {jobsDescending.map((job) => {
             const start = new Date(job.start);
             const end = job.end ? new Date(job.end) : today;
             const duration = formatDistance(start, end);
@@ -65,7 +65,7 @@ export function History() {
   );
 }
 
-const jobs = [
+export const jobs = [
   {
     name: "Sourcebits",
     title: "Frontend Developer",
@@ -100,7 +100,8 @@ const jobs = [
     start: "January 1 2021",
     Logo: Vertafore,
   },
-].reverse();
+];
+const jobsDescending = [...jobs].reverse();
 
 function monthYear(input: Date) {
   return format(input, "MMM yyyy");
