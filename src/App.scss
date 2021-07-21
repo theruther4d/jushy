@@ -19,6 +19,7 @@ html {
   color: white;
   fill: white;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 body {
@@ -31,6 +32,9 @@ h3,
 h4,
 h5,
 h6 {
+  max-width: $max_width;
+  margin-left: auto;
+  margin-right: auto;
   font-family: "Work Sans", sans-serif;
 
   em {
@@ -43,7 +47,7 @@ h2 {
   font-size: 3rem;
   line-height: 2.625rem;
   font-weight: 800;
-  margin: 0.5rem 0;
+  margin: 0.5rem auto;
 }
 
 p {
@@ -60,4 +64,8 @@ section + h2 {
 a {
   color: $primary;
   text-decoration: underline;
+}
+
+.breakable {
+  overflow-wrap: break-word;
 }

@@ -30,7 +30,7 @@ export function Contributions() {
 
   return (
     <>
-      <h2>Code Contributions</h2>
+      <h2 className="breakable">Code Contributions</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : (

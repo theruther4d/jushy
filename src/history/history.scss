@@ -7,6 +7,9 @@ $logo_size: 1.5rem;
 $horizontal_breakpoint: 724px;
 
 .history {
+  max-width: $max_width;
+  margin: 0 auto;
+
   @media all and (min-width: $horizontal_breakpoint) {
     display: flex;
 
