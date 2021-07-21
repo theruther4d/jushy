@@ -39,7 +39,9 @@ export function History() {
                 <dd>
                   <figure>
                     <job.Logo />
-                    <figcaption>{job.name} logo</figcaption>
+                    <figcaption className="offscreen">
+                      {job.name} logo
+                    </figcaption>
                   </figure>
                   <span className="title">{job.title}</span>
                   <span className="when">

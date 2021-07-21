@@ -8,6 +8,8 @@
 
 html,
 body {
+  margin: 0;
+  padding: 0;
   width: 100%;
   min-height: 100%;
   max-width: 100%;
@@ -32,7 +34,6 @@ h3,
 h4,
 h5,
 h6 {
-  max-width: $max_width;
   margin-left: auto;
   margin-right: auto;
   font-family: "Work Sans", sans-serif;
@@ -57,8 +58,13 @@ p {
   color: rgba(255, 255, 255, 0.7);
 }
 
-section + h2 {
-  margin-top: 4rem;
+section {
+  max-width: $max_width;
+  margin: 0 auto;
+}
+
+section + section {
+  margin-top: 6rem;
 }
 
 a {
@@ -68,4 +74,21 @@ a {
 
 .breakable {
   overflow-wrap: break-word;
+}
+
+.limited {
+  max-width: $max_width;
+}
+
+.unlimited {
+  max-width: none;
+}
+
+.offscreen {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+  top: -2000px;
+  left: -2000px;
 }

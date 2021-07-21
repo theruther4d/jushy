@@ -1,0 +1,68 @@
+$light: #424242;
+$dark: #353535;
+
+.self-taught {
+  @media all and (min-width: 724px) {
+    display: flex;
+
+    main {
+      order: 2;
+      margin-left: 2rem;
+    }
+  }
+
+  figure {
+    padding: 2rem 1rem;
+    margin: 0;
+    border-radius: 2rem;
+    display: inline-block;
+    max-width: 100%;
+    background: linear-gradient(to top right, $dark, $light);
+    align-self: center;
+  }
+
+  pre,
+  code {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  code {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.875rem;
+
+    .var {
+      color: #e88cd4;
+    }
+
+    .constant {
+      color: #f2e14f;
+    }
+
+    .property {
+      color: #b99df4;
+    }
+  }
+
+  .error {
+    display: block;
+    position: relative;
+
+    &:after {
+      content: attr(data-content);
+      letter-spacing: -0.25rem;
+      font-size: 1.5rem;
+      position: absolute;
+      top: calc(100% - 0.75rem);
+      left: 0;
+      color: #ee927b;
+      z-index: 2;
+      font-weight: 100;
+      max-width: 100%;
+      overflow: hidden;
+    }
+  }
+}

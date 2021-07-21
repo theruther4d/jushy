@@ -29,12 +29,12 @@ export function Contributions() {
   let lastLabeledWeek: Date;
 
   return (
-    <>
-      <h2 className="breakable">Code Contributions</h2>
+    <section className="contributions unlimited">
+      <h2 className="breakable limited">Code Contributions</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <section className="contributions">
+        <div className="content">
           <header>
             <span className="label calendar-day-1">
               <span className="background">Mon</span>
@@ -150,9 +150,9 @@ export function Contributions() {
               </button>
             </footer>
           )}
-        </section>
+        </div>
       )}
-    </>
+    </section>
   );
 }
 
