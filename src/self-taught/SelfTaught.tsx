@@ -1,3 +1,4 @@
+import pondering from "./pondering.png";
 import "./self-taught.scss";
 
 export function SelfTaught() {
@@ -33,6 +34,7 @@ export function SelfTaught() {
         <figcaption className="offscreen">
           Some lines of code with an error.
         </figcaption>
+        <img src={pondering} width={220} />
       </figure>
     </section>
   );
