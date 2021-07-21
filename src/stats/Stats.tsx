@@ -1,4 +1,4 @@
-import { differenceInYears, formatDistance } from "date-fns";
+import { differenceInYears } from "date-fns";
 import { jobs } from "../history/History";
 
 import "./stats.scss";
@@ -23,6 +23,11 @@ export function Stats() {
           {differenceInYears(today, remoteStartDate)}
           <sup>+</sup>
         </dd>
+        <dt>Years Leading Teams</dt>
+        <dd>
+          {differenceInYears(today, teamLeadStartDate)}
+          <sup>+</sup>
+        </dd>
         <dt>Years Working Remotely</dt>
         <dd>
           {/* @TODO: */}
@@ -35,7 +40,8 @@ export function Stats() {
   );
 }
 
-const [firstJob, _apple, firstRemoteJob] = jobs;
+const [firstJob, , firstRemoteJob, firstTeamLeadJob] = jobs;
 const startDate = new Date(firstJob.start);
 const remoteStartDate = new Date(firstRemoteJob.start);
+const teamLeadStartDate = new Date(firstTeamLeadJob.start);
 const today = new Date();
