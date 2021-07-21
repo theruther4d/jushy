@@ -67,6 +67,10 @@ section {
 
 section + section {
   margin-top: 6rem;
+
+  @media all and (min-width: 768px) {
+    margin-top: 10rem;
+  }
 }
 
 a {

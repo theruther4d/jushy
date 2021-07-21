@@ -6,6 +6,10 @@ $dark: #353535;
 
   main {
     text-align: left;
+
+    p {
+      max-width: 30rem;
+    }
   }
 
   aside {
@@ -15,6 +19,7 @@ $dark: #353535;
 
   @media all and (min-width: 724px) {
     display: flex;
+    justify-content: center;
 
     main {
       order: 2;
