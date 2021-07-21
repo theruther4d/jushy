@@ -2,10 +2,15 @@ $light: #424242;
 $dark: #353535;
 
 .self-taught {
-  text-align: center;
+  max-width: 100%;
 
   main {
     text-align: left;
+  }
+
+  aside {
+    display: flex;
+    justify-content: center;
   }
 
   @media all and (min-width: 724px) {
@@ -21,11 +26,11 @@ $dark: #353535;
     padding: 2rem 1rem;
     margin: 0;
     border-radius: 2rem;
-    display: inline-block;
     max-width: calc(100% - 40px);
     background: linear-gradient(to top right, $dark, $light);
-    position: relative;
     align-self: center;
+    position: relative;
+    margin-bottom: 50px;
 
     @media all and (min-width: 724px) {
       align-self: start;
@@ -34,8 +39,10 @@ $dark: #353535;
     img {
       width: 100px;
       position: absolute;
-      bottom: -50px;
-      right: -50px;
+      display: block;
+      bottom: 0;
+      right: 0;
+      transform: translate3d(50px, 50px, 0);
     }
   }
 

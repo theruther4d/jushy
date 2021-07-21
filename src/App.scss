@@ -25,7 +25,7 @@ html {
 }
 
 body {
-  padding: 2rem $gutter 100px;
+  padding: 2rem 0 100px;
 }
 
 h1,
@@ -61,6 +61,8 @@ p {
 section {
   max-width: $max_width;
   margin: 0 auto;
+  padding: 0 $gutter;
+  overflow: hidden;
 }
 
 section + section {

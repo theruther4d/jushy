@@ -9,6 +9,10 @@ $horizontal_breakpoint: 724px;
   max-width: $max_width;
   margin: 0 auto;
 
+  p {
+    max-width: 30rem;
+  }
+
   @media all and (min-width: $horizontal_breakpoint) {
     display: flex;
 

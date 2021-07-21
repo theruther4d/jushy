@@ -10,6 +10,8 @@ $tip_offset: 0.5rem;
 $box_outline: 2px;
 
 .contributions {
+  overflow: unset;
+
   .content {
     display: flex;
     flex-wrap: wrap;

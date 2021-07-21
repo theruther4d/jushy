@@ -5,6 +5,10 @@
 
   main {
     text-align: left;
+
+    p {
+      max-width: 30rem;
+    }
   }
 
   @media all and (min-width: 724px) {
