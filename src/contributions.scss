@@ -1,11 +1,18 @@
 $box_size: 1rem;
 $gap: 4px;
-$sidebar_width: 100px;
+$sidebar_width: 80px;
 $horizontal_breakpoint: 450px;
+$horizontal_max_breakpoint: 449.98px;
+$tip_height: 1.5rem;
+$tip_offset: 0.5rem;
+$box_outline: 2px;
 
 .contributions {
   display: flex;
   flex-wrap: wrap;
+  padding-top: 0.75rem;
+  // Prevent outline from being cut off
+  padding-bottom: $box_outline;
 
   @media all and (min-width: $horizontal_breakpoint) {
     display: grid;
@@ -26,7 +33,7 @@ $horizontal_breakpoint: 450px;
   }
 
   header,
-  main {
+  figure {
     display: grid;
     gap: $gap;
     grid-template-columns: repeat(7, 1fr);
@@ -75,6 +82,10 @@ $horizontal_breakpoint: 450px;
     }
   }
 
+  figure {
+    margin: 0;
+  }
+
   aside {
     width: $sidebar_width;
     padding-left: 0.5rem;
@@ -93,11 +104,16 @@ $horizontal_breakpoint: 450px;
       background: transparent;
     }
 
+    .label .background {
+      width: 100%;
+    }
+
     @media all and (min-width: $horizontal_breakpoint) {
       grid-area: xAxis;
       width: unset;
       display: flex;
       padding-left: 0;
+      gap: $gap;
 
       .label,
       .spacer {
@@ -105,6 +121,10 @@ $horizontal_breakpoint: 450px;
         width: $box_size;
         top: unset;
         left: 0;
+      }
+
+      .label .background {
+        min-width: $box_size * 4;
       }
     }
   }
@@ -126,6 +146,7 @@ $horizontal_breakpoint: 450px;
     padding-bottom: 100%;
     display: block;
     height: 0;
+    position: relative;
 
     &[data-level="NONE"] {
       background: rgba(0, 255, 0, 0.1);
@@ -151,6 +172,65 @@ $horizontal_breakpoint: 450px;
       width: $box_size;
       height: $box_size;
       padding-bottom: 0;
+    }
+  }
+
+  .placeholder {
+    background: transparent !important;
+  }
+
+  time {
+    &:hover {
+      outline: $box_outline solid yellow;
+
+      &:before {
+        content: attr(data-tip);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0.25rem;
+        background: yellow;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: calc(-#{$tip_height} - #{$tip_offset});
+        z-index: 5;
+        height: $tip_height;
+        pointer-events: none;
+        border-radius: 0.25rem;
+        white-space: nowrap;
+        font-size: 0.75rem;
+        box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.25),
+          0 14px 4px -6px rgba(0, 0, 0, 0.75);
+      }
+    }
+  }
+
+  time,
+  .placeholder {
+    @media all and (max-width: $horizontal_max_breakpoint) {
+      // left-align first 3 columns when stacked vertically:
+      &:nth-child(7n + 1),
+      &:nth-child(7n + 2),
+      &:nth-child(7n + 3) {
+        background: blue !important;
+
+        &:hover:before {
+          left: 0;
+          transform: none;
+        }
+      }
+    }
+
+    // left-align first 3 columns when stacked horizontally:
+    @media all and (min-width: $horizontal_breakpoint) {
+      @for $day from 1 through 21 {
+        &:nth-child(#{$day}):hover:before {
+          left: 0;
+          transform: none;
+        }
+      }
     }
   }
 

@@ -39,56 +39,65 @@ export function Contributions() {
             </span>
           </header>
           <main>
-            {data!.pages.map((page) => {
-              const { startedAt, endedAt, contributionCalendar } =
-                page.viewer.contributionsCollection;
+            <figure>
+              {data!.pages.map((page) => {
+                const { startedAt, endedAt, contributionCalendar } =
+                  page.viewer.contributionsCollection;
 
-              return (
-                <React.Fragment key={`${startedAt}-${endedAt}`}>
-                  {contributionCalendar.weeks.map((week) => {
-                    const days = week.contributionDays;
-                    const isCurrentWeek = week.contributionDays.some((day) =>
-                      isSameWeek(new Date(day.date), today)
-                    );
-                    const placeholderSpots = isCurrentWeek
-                      ? [...new Array(7 - days.length)]
-                      : [];
+                return (
+                  <React.Fragment key={`${startedAt}-${endedAt}`}>
+                    {contributionCalendar.weeks.map((week) => {
+                      const days = week.contributionDays;
+                      const isCurrentWeek = week.contributionDays.some((day) =>
+                        isSameWeek(new Date(day.date), today)
+                      );
+                      const placeholderSpots = isCurrentWeek
+                        ? [...new Array(7 - days.length)]
+                        : [];
 
-                    return (
-                      <React.Fragment key={week.firstDay}>
-                        {days.map((day) => {
-                          const parsed = parseDate(day.date);
-                          const offset = parsed.getDay() % 7;
+                      return (
+                        <React.Fragment key={week.firstDay}>
+                          {days.map((day) => {
+                            const parsed = parseDate(day.date);
+                            const offset = parsed.getDay() % 7;
+                            const count = day.contributionCount;
+                            const s = count === 1 ? "" : "s";
+                            const prettyDate = format(parsed, "MMM dd, yyyy");
 
-                          return (
-                            <time
-                              key={day.date}
-                              data-level={day.contributionLevel}
-                              data-contribution-count={day.contributionCount}
-                              dateTime={format(new Date(parsed), "yyyy-MM-dd")}
-                              className={`calendar-day-${offset}`}
-                            />
-                          );
-                        })}
-                        {placeholderSpots.map((_, i) => {
-                          const date = addDays(today, i + 1);
-                          const offset = date.getDay() % 7;
+                            return (
+                              <time
+                                key={day.date}
+                                data-level={day.contributionLevel}
+                                data-contribution-count={count}
+                                data-tip={`${count} contribution${s} on ${prettyDate}`}
+                                dateTime={format(
+                                  new Date(parsed),
+                                  "yyyy-MM-dd"
+                                )}
+                                className={`calendar-day-${offset}`}
+                              />
+                            );
+                          })}
+                          {placeholderSpots.map((_, i) => {
+                            const date = addDays(today, i + 1);
+                            const offset = date.getDay() % 7;
 
-                          return (
-                            <span
-                              key={date.toISOString()}
-                              data-level="NONE"
-                              data-contribution-count={0}
-                              className={`placeholder calendar-day-${offset}`}
-                            />
-                          );
-                        })}
-                      </React.Fragment>
-                    );
-                  })}
-                </React.Fragment>
-              );
-            })}
+                            return (
+                              <span
+                                key={date.toISOString()}
+                                data-level="NONE"
+                                data-contribution-count={0}
+                                className={`placeholder calendar-day-${offset}`}
+                              />
+                            );
+                          })}
+                        </React.Fragment>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              })}
+            </figure>
           </main>
           <aside>
             {data!.pages.map((page) => {

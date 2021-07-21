@@ -1,3 +1,9 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   width: 100%;
@@ -10,6 +16,10 @@ html {
   background: black;
   color: white;
   fill: white;
+}
+
+body {
+  padding: 0 0.5rem;
 }
 
 h1,
