@@ -18,7 +18,7 @@ export function History() {
         </h2>
         <p>
           But my best work is still ahead of me. If you think your team has a
-          place for me <a>get in touch.</a>
+          place for me <a href="mailto:">get in touch.</a>
         </p>
       </header>
       <article className="card">
