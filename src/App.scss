@@ -18,6 +18,7 @@ html {
   background: black;
   color: white;
   fill: white;
+  font-size: 16px;
 }
 
 body {
@@ -31,11 +32,31 @@ h4,
 h5,
 h6 {
   font-family: "Work Sans", sans-serif;
+
+  em {
+    color: $primary;
+  }
 }
 
 h2 {
-  font-size: 2rem;
-  line-height: 2.25rem;
-  font-weight: 900;
+  font-size: 3rem;
+  line-height: 2.625rem;
+  font-weight: 800;
   margin: 0.5rem 0;
+}
+
+p {
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.6875rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+section + h2 {
+  margin-top: 4rem;
+}
+
+a {
+  color: $primary;
+  text-decoration: underline;
 }

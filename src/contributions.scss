@@ -153,23 +153,23 @@ $box_outline: 2px;
     position: relative;
 
     &[data-level="NONE"] {
-      background: rgba(0, 255, 0, 0.1);
+      background: rgba($primary, 0.1);
     }
 
     &[data-level="FIRST_QUARTILE"] {
-      background: rgba(0, 255, 0, 0.25);
+      background: rgba($primary, 0.25);
     }
 
     &[data-level="SECOND_QUARTILE"] {
-      background: rgba(0, 255, 0, 0.5);
+      background: rgba($primary, 0.5);
     }
 
     &[data-level="THIRD_QUARTILE"] {
-      background: rgba(0, 255, 0, 0.75);
+      background: rgba($primary, 0.75);
     }
 
     &[data-level="FOURTH_QUARTILE"] {
-      background: rgba(0, 255, 0, 1);
+      background: rgba($primary, 1);
     }
 
     @media all and (min-width: $horizontal_breakpoint) {

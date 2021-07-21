@@ -1,0 +1,141 @@
+@import "../variables.scss";
+
+$padding: 1rem;
+$black: darken($primary, 35);
+$logo_area: 3rem;
+$logo_size: 1.5rem;
+$horizontal_breakpoint: 724px;
+
+.history {
+  @media all and (min-width: $horizontal_breakpoint) {
+    display: flex;
+
+    header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  .card {
+    color: $black;
+    max-width: 24rem;
+    margin: 0 auto;
+    background: $primary;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    // perspective: 200px;
+
+    // &:before {
+    //   content: "";
+    //   position: absolute;
+    //   top: 0;
+    //   right: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   background: $primary;
+    //   transform-style: preserve-3d;
+    //   perspective-origin: center;
+    //   border-radius: 1.5rem;
+    //   transform: rotateY(2deg) rotateX(-1deg);
+    // }
+    @media all and (min-width: $horizontal_breakpoint) {
+      width: 24rem;
+      flex-shrink: 0;
+      margin-left: 2rem;
+    }
+
+    h3 {
+      font-size: 2rem;
+      padding: 0 calc(#{$padding} * 2);
+      margin: 1.25rem 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  dl,
+  dt,
+  dd {
+    margin: 0;
+    padding: 0;
+  }
+
+  dt,
+  dd {
+    padding: 0 $padding 0 0;
+  }
+
+  dl {
+    padding-left: calc(#{$logo_area} + (#{$padding} * 2));
+  }
+
+  dt {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  dd {
+    margin-bottom: $padding;
+    padding-bottom: $padding;
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba($black, 0.25);
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  figure {
+    margin: 0;
+    position: absolute;
+    left: calc(-#{$logo_area} - #{$padding});
+    top: -1.25rem;
+    width: $logo_area;
+    height: $logo_area;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    box-shadow: 0 4px 7px 1px rgba($black, 0.07);
+
+    svg {
+      width: $logo_size;
+      height: $logo_size;
+    }
+  }
+
+  figcaption {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    top: -2000px;
+    left: -2000px;
+  }
+
+  .title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: block;
+  }
+
+  .when {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+}

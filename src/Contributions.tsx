@@ -1,7 +1,6 @@
+import { Fragment } from "react";
 import { useInfiniteQuery } from "react-query";
 import { gql, GraphQLClient } from "graphql-request";
-import token from "./github.secret.json";
-import React from "react";
 import subYears from "date-fns/subYears";
 import {
   addDays,
@@ -15,6 +14,7 @@ import {
   subDays,
 } from "date-fns";
 
+import token from "./github.secret.json";
 import "./contributions.scss";
 
 export function Contributions() {
@@ -47,7 +47,7 @@ export function Contributions() {
                   page.viewer.contributionsCollection;
 
                 return (
-                  <React.Fragment key={`${startedAt}-${endedAt}`}>
+                  <Fragment key={`${startedAt}-${endedAt}`}>
                     {contributionCalendar.weeks.map((week) => {
                       const days = week.contributionDays;
                       const isCurrentWeek = week.contributionDays.some((day) =>
@@ -58,7 +58,7 @@ export function Contributions() {
                         : [];
 
                       return (
-                        <React.Fragment key={week.firstDay}>
+                        <Fragment key={week.firstDay}>
                           {days.map((day) => {
                             const parsed = parseDate(day.date);
                             const offset = parsed.getDay() % 7;
@@ -97,10 +97,10 @@ export function Contributions() {
                               />
                             );
                           })}
-                        </React.Fragment>
+                        </Fragment>
                       );
                     })}
-                  </React.Fragment>
+                  </Fragment>
                 );
               })}
             </figure>
@@ -111,7 +111,7 @@ export function Contributions() {
                 page.viewer.contributionsCollection;
 
               return (
-                <React.Fragment key={`${startedAt}-${endedAt}`}>
+                <Fragment key={`${startedAt}-${endedAt}`}>
                   {contributionCalendar.weeks.map((week) => {
                     const firstDay = parseDate(week.firstDay);
                     const showLabel =
@@ -133,7 +133,7 @@ export function Contributions() {
 
                     return markup;
                   })}
-                </React.Fragment>
+                </Fragment>
               );
             })}
           </aside>
