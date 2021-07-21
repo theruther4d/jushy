@@ -5,8 +5,10 @@ import React from "react";
 import subYears from "date-fns/subYears";
 import {
   addDays,
+  differenceInDays,
   format,
   isBefore,
+  isSameDay,
   isSameMonth,
   isSameWeek,
   startOfDay,
@@ -22,7 +24,7 @@ export function Contributions() {
 
   return (
     <>
-      <h2>Contributions</h2>
+      <h2>Code Contributions</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -62,14 +64,18 @@ export function Contributions() {
                             const offset = parsed.getDay() % 7;
                             const count = day.contributionCount;
                             const s = count === 1 ? "" : "s";
-                            const prettyDate = format(parsed, "MMM dd, yyyy");
+                            const date = relativeDate(parsed);
+                            const on =
+                              date === "Today" || date === "Yesterday"
+                                ? ""
+                                : "on";
 
                             return (
                               <time
                                 key={day.date}
                                 data-level={day.contributionLevel}
                                 data-contribution-count={count}
-                                data-tip={`${count} contribution${s} on ${prettyDate}`}
+                                data-tip={`${count} contribution${s} ${on} ${date}`}
                                 dateTime={format(
                                   new Date(parsed),
                                   "yyyy-MM-dd"
@@ -262,6 +268,15 @@ function useContributionsCalendar(
       },
     }
   );
+}
+
+function relativeDate(input: Date) {
+  const difference = differenceInDays(input, today);
+
+  if (difference === 0) return "Today";
+  if (difference === -1) return "Yesterday";
+  if (difference < 0 && difference >= -7) return format(input, "EEEE");
+  return format(input, "MMM dd, yyyy");
 }
 
 interface ContributionDay {
