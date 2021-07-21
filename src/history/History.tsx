@@ -3,6 +3,7 @@ import { format, formatDistance } from "date-fns";
 import { ReactComponent as Sourcebits } from "./logos/sourcebits.svg";
 import { ReactComponent as Apple } from "./logos/apple.svg";
 import { ReactComponent as RiskMatch } from "./logos/riskmatch.svg";
+import { ReactComponent as Vertafore } from "./logos/vertafore.svg";
 
 import "./history.scss";
 
@@ -95,7 +96,7 @@ const jobs = [
     name: "Vertafore",
     title: "Staff Architect",
     start: "January 1 2021",
-    Logo: RiskMatch,
+    Logo: Vertafore,
   },
 ].reverse();
 

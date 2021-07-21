@@ -47,6 +47,7 @@ $horizontal_breakpoint: 724px;
 
     h3 {
       font-size: 2rem;
+      line-height: 1.875rem;
       padding: 0 calc(#{$padding} * 2);
       margin: 1.25rem 0 1.5rem;
       position: relative;
@@ -116,6 +117,7 @@ $horizontal_breakpoint: 724px;
     svg {
       width: $logo_size;
       height: $logo_size;
+      fill: $black;
     }
   }
 
