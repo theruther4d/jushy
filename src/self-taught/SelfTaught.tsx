@@ -34,7 +34,11 @@ export function SelfTaught() {
         <figcaption className="offscreen">
           Some lines of code with an error.
         </figcaption>
-        <img src={pondering} width={220} />
+        <img
+          src={pondering}
+          width={220}
+          alt="A cartoon of my face, pondering the code with an error."
+        />
       </figure>
     </section>
   );
