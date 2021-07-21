@@ -14,8 +14,15 @@ import {
   subDays,
 } from "date-fns";
 
-import token from "./github.secret.json";
 import "./contributions.scss";
+
+const token = process.env.REACT_APP_GITHUB_SECRET;
+
+if (!token) {
+  throw new Error(
+    "You forgot to specify the github token at process.env.REACT_APP_GITHUB_SECRET"
+  );
+}
 
 export function Contributions() {
   const { isLoading, isFetching, data, hasPreviousPage, fetchPreviousPage } =
