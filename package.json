@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "REACT_APP_GITHUB_SECRET=\"$(< src/github.secret.txt)\" react-scripts start",
-    "build": "yarn build:local",
+    "build": "react-scripts build",
     "build:local": "REACT_APP_GITHUB_SECRET=\"$(< src/github.secret.txt)\" react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
