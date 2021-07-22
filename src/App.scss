@@ -56,6 +56,7 @@ p {
   font-weight: 300;
   line-height: 1.6875rem;
   color: rgba(255, 255, 255, 0.7);
+  margin: 2rem 0;
 }
 
 section {
@@ -68,7 +69,7 @@ section {
 section + section {
   margin-top: 6rem;
 
-  @media all and (min-width: 768px) {
+  @media all and (min-width: 1000px) {
     margin-top: 10rem;
   }
 }
@@ -82,14 +83,6 @@ a {
   overflow-wrap: break-word;
 }
 
-.limited {
-  max-width: $max_width;
-}
-
-.unlimited {
-  max-width: none;
-}
-
 .offscreen {
   width: 0;
   height: 0;
@@ -97,4 +90,15 @@ a {
   position: absolute;
   top: -2000px;
   left: -2000px;
+}
+
+button.link {
+  appearance: none;
+  background: transparent;
+  text-decoration: underline;
+  color: $primary;
+  font: inherit;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
 }

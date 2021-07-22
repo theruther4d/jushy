@@ -11,6 +11,12 @@ $box_outline: 2px;
 
 .contributions {
   overflow: unset;
+  padding-right: 0;
+  max-width: none;
+
+  h2 {
+    max-width: $max_width;
+  }
 
   .content {
     display: flex;
@@ -139,6 +145,7 @@ $box_outline: 2px;
 
   footer {
     flex-basis: 100%;
+    padding: 1rem 0;
 
     button {
       white-space: nowrap;
@@ -146,6 +153,8 @@ $box_outline: 2px;
 
     @media all and (min-width: $horizontal_breakpoint) {
       grid-area: footer;
+      display: flex;
+      padding: 0 1rem;
     }
   }
 

@@ -5,14 +5,16 @@
 
   main {
     text-align: left;
+    max-width: 30rem;
 
     p {
-      max-width: 30rem;
     }
   }
 
   @media all and (min-width: 724px) {
     display: flex;
+    align-items: center;
+    justify-content: center;
 
     main {
       margin-right: 1rem;

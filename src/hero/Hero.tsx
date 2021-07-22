@@ -4,21 +4,25 @@ import peeking from "./peeking.png";
 export function Hero() {
   return (
     <section className="hero">
-      <figure>
-        <img
-          src={peeking}
-          alt="Cartoon of me peeking over a laptop"
-          width="100"
-        />
-      </figure>
+      <header>
+        <figure>
+          <img
+            src={peeking}
+            alt="Cartoon of me peeking over a laptop"
+            width="100"
+          />
+        </figure>
+        <div>
+          <h1>Josh Rutherford</h1>
+          <h3>Software Developer</h3>
+        </div>
+      </header>
       <main>
-        <h1>Josh Rutherford</h1>
-        <h3>Software Developer</h3>
         <p>
-          I’m a software developer with over 8 years of experience. Currently
-          focused on user interface development and building web and mobile
-          apps. I've worked primarily with Typescript and React for the past 4
-          years.
+          I’m a curiosity-driven developer with over 8 years of experience. Most
+          of that time has been focused on user interface development and web
+          apps. For the past 4 years I've worked primarily with Typescript and
+          React.
         </p>
       </main>
     </section>

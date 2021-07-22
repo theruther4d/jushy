@@ -29,8 +29,8 @@ export function Contributions() {
   let lastLabeledWeek: Date;
 
   return (
-    <section className="contributions unlimited">
-      <h2 className="breakable limited">Code Contributions</h2>
+    <section className="contributions">
+      <h2 className="breakable">Code Contributions</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -145,8 +145,12 @@ export function Contributions() {
           </aside>
           {hasPreviousPage && (
             <footer>
-              <button disabled={isFetching} onClick={() => fetchPreviousPage()}>
-                Show More
+              <button
+                className="link"
+                disabled={isFetching}
+                onClick={() => fetchPreviousPage()}
+              >
+                Show Older
               </button>
             </footer>
           )}
