@@ -39,10 +39,6 @@ export function Footer() {
         </div>
       </div>
       <div className="meta">
-        <span className="copyright">
-          <img src={hearts} alt="Cartoon of my face surrounded by hearts." />
-          &copy; {today.getFullYear()} Josh Rutherford. All rights reserved.
-        </span>
         <div className="social">
           <a href="https://github.com/theruther4d">
             <Github width={36} height={36} />
@@ -54,6 +50,10 @@ export function Footer() {
             <Linkedin width={36} height={36} />
           </a>
         </div>
+        <span className="copyright">
+          <img src={hearts} alt="Cartoon of my face surrounded by hearts." />
+          &copy; {today.getFullYear()} Josh Rutherford. All rights reserved.
+        </span>
       </div>
     </footer>
   );

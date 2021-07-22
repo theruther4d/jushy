@@ -10,3 +10,6 @@
 - counting number animation on stats
 - legend for contributions
 - better loading state for contributions
+- favicon
+- title
+- prerender with something like react-static?
