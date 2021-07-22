@@ -16,6 +16,14 @@ $box_outline: 2px;
 
   h2 {
     max-width: $max_width;
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      // transform: translateX(8%);
+    }
+
+    @media all and (min-width: $max_width) {
+      transform: translateX(6.5rem);
+    }
   }
 
   .content {

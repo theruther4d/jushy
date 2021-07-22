@@ -22,46 +22,48 @@ export function History() {
           place for me <a href="mailto:">get in touch.</a>
         </p>
       </header>
-      <article className="card">
-        <h3>
-          Employment
-          <br />
-          History
-        </h3>
-        <dl>
-          {jobsDescending.map((job) => {
-            const start = new Date(job.start);
-            const end = job.end ? new Date(job.end) : today;
-            const duration = formatDistance(start, end);
+      <main>
+        <article className="card">
+          <h3>
+            Employment
+            <br />
+            History
+          </h3>
+          <dl>
+            {jobsDescending.map((job) => {
+              const start = new Date(job.start);
+              const end = job.end ? new Date(job.end) : today;
+              const duration = formatDistance(start, end);
 
-            return (
-              <Fragment key={`${job.name}-${job.title}`}>
-                <dt>{job.name}</dt>
-                <dd>
-                  <figure>
-                    <job.Logo />
-                    <figcaption className="offscreen">
-                      {job.name} logo
-                    </figcaption>
-                  </figure>
-                  <span className="title">{job.title}</span>
-                  <span className="when">
-                    <time dateTime={start.toISOString()}>
-                      {monthYear(start)}
-                    </time>
-                    {" - "}
-                    <time dateTime={end.toISOString()}>
-                      {job.end ? monthYear(end) : "Present"}
-                    </time>
-                    {" - "}
-                    <time>{duration}</time>
-                  </span>
-                </dd>
-              </Fragment>
-            );
-          })}
-        </dl>
-      </article>
+              return (
+                <Fragment key={`${job.name}-${job.title}`}>
+                  <dt>{job.name}</dt>
+                  <dd>
+                    <figure>
+                      <job.Logo />
+                      <figcaption className="offscreen">
+                        {job.name} logo
+                      </figcaption>
+                    </figure>
+                    <span className="title">{job.title}</span>
+                    <span className="when">
+                      <time dateTime={start.toISOString()}>
+                        {monthYear(start)}
+                      </time>
+                      {" - "}
+                      <time dateTime={end.toISOString()}>
+                        {job.end ? monthYear(end) : "Present"}
+                      </time>
+                      {" - "}
+                      <time>{duration}</time>
+                    </span>
+                  </dd>
+                </Fragment>
+              );
+            })}
+          </dl>
+        </article>
+      </main>
     </section>
   );
 }

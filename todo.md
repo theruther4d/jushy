@@ -1,15 +1,33 @@
 # TODO:
 
+## General
+
 - print version => resume
 - downloadable pdf for resume
 - clean up repetitive styling for sections
 - 3d effect on cards
-- header styling
 - get in touch -> copy to clipboard
-- overflow indicator on contributions
-- counting number animation on stats
-- legend for contributions
-- better loading state for contributions
 - favicon
 - title
 - prerender with something like react-static?
+
+## Hero
+
+- add more bio, way to show/hide extended version?
+
+## Contributions
+
+- overflow indicator
+- legend
+- backwards/forwards arrows?
+- disclaimer?
+- better loading state
+- error state - use error boundary, link to github version?
+
+## Stats
+
+- counting number animation
+
+## Footer
+
+- safe area inset - make lines extend all the way?

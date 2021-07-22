@@ -30,7 +30,7 @@ export function Footer() {
         <div className="popup-wrap">
           {popupVisible && (
             <div className="popup">
-              <button onClick={onContact}>
+              <button onClick={onContact} disabled>
                 Click to Copy email address to clipboard
               </button>
             </div>

@@ -26,17 +26,22 @@ $horizontal_breakpoint: 724px;
     }
   }
 
+  main {
+    text-align: center;
+  }
+
   .card {
     color: $black;
     max-width: 24rem;
     margin: 0 auto;
     background: $primary;
-    border-radius: 1.5rem;
+    border-radius: $card_radius;
     overflow: hidden;
+    display: inline-block;
+    text-align: left;
+    padding-bottom: $card_padding;
 
     @media all and (min-width: $horizontal_breakpoint) {
-      width: 24rem;
-      flex-shrink: 0;
       margin-left: 2rem;
       margin-right: 0;
     }
@@ -44,7 +49,7 @@ $horizontal_breakpoint: 724px;
     h3 {
       font-size: 2rem;
       line-height: 1.875rem;
-      padding: 0 calc(#{$card_padding} * 2);
+      padding: 0 $card_padding;
       margin: 1.25rem 0 1.5rem;
       position: relative;
       z-index: 1;
@@ -73,8 +78,8 @@ $horizontal_breakpoint: 724px;
   }
 
   dd {
-    margin-bottom: $card_padding;
-    padding-bottom: $card_padding;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
     position: relative;
 
     &:after {
@@ -114,6 +119,13 @@ $horizontal_breakpoint: 724px;
       width: $logo_size;
       height: $logo_size;
       fill: $black;
+    }
+  }
+
+  .title,
+  .when {
+    @media all and (min-width: $horizontal_breakpoint) {
+      white-space: nowrap;
     }
   }
 

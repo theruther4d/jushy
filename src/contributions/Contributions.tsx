@@ -150,7 +150,7 @@ export function Contributions() {
                 disabled={isFetching}
                 onClick={() => fetchPreviousPage()}
               >
-                Show Older
+                {isFetching ? "Grabbing..." : "Show Older"}
               </button>
             </footer>
           )}

@@ -116,4 +116,8 @@ button.link {
   background: transparent;
   text-decoration: underline;
   color: $primary;
+
+  &:disabled {
+    color: desaturate($color: $primary, $amount: 75);
+  }
 }
