@@ -7,8 +7,6 @@
 - clean up repetitive styling for sections
 - 3d effect on cards
 - get in touch -> copy to clipboard
-- favicon
-- title
 
 ## Hero
 
