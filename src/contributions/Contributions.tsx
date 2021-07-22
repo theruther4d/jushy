@@ -57,7 +57,7 @@ export function Contributions() {
                     {contributionCalendar.weeks.map((week) => {
                       const days = week.contributionDays;
                       const isCurrentWeek = week.contributionDays.some((day) =>
-                        isSameWeek(new Date(day.date), today)
+                        isSameWeek(parseDate(day.date), today)
                       );
                       const placeholderSpots = isCurrentWeek
                         ? [...new Array(7 - days.length)]

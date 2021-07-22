@@ -10,12 +10,14 @@ $horizontal_breakpoint: 724px;
   margin-left: auto;
   margin-right: auto;
 
+  h2,
   p {
     max-width: 30rem;
   }
 
   @media all and (min-width: $horizontal_breakpoint) {
     display: flex;
+    justify-content: center;
 
     header {
       display: flex;
@@ -31,25 +33,12 @@ $horizontal_breakpoint: 724px;
     background: $primary;
     border-radius: 1.5rem;
     overflow: hidden;
-    // perspective: 200px;
 
-    // &:before {
-    //   content: "";
-    //   position: absolute;
-    //   top: 0;
-    //   right: 0;
-    //   bottom: 0;
-    //   left: 0;
-    //   background: $primary;
-    //   transform-style: preserve-3d;
-    //   perspective-origin: center;
-    //   border-radius: 1.5rem;
-    //   transform: rotateY(2deg) rotateX(-1deg);
-    // }
     @media all and (min-width: $horizontal_breakpoint) {
       width: 24rem;
       flex-shrink: 0;
       margin-left: 2rem;
+      margin-right: 0;
     }
 
     h3 {
