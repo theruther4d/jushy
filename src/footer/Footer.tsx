@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { ReactComponent as Codepen } from "./icons/codepen.svg";
 import { ReactComponent as Github } from "./icons/github.svg";
 import { ReactComponent as Linkedin } from "./icons/linkedin.svg";
 
+import callme from "./call-me.png";
+import hearts from "./hearts.png";
+
 import "./footer.scss";
-import { useState } from "react";
 
 export function Footer() {
   const [popupVisible, setPopupVisible] = useState(false);
@@ -19,6 +22,11 @@ export function Footer() {
   return (
     <footer className="footer">
       <div className="contact">
+        <img
+          src={callme}
+          alt="Cartoon of me making a phone gesture with my hand"
+        />
+        <h2>Convinced yet?</h2>
         <div className="popup-wrap">
           {popupVisible && (
             <div className="popup">
@@ -32,6 +40,7 @@ export function Footer() {
       </div>
       <div className="meta">
         <span className="copyright">
+          <img src={hearts} alt="Cartoon of my face surrounded by hearts." />
           &copy; {today.getFullYear()} Josh Rutherford. All rights reserved.
         </span>
         <div className="social">
