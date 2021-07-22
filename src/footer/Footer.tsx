@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ReactComponent as Codepen } from "./icons/codepen.svg";
 import { ReactComponent as Github } from "./icons/github.svg";
 import { ReactComponent as Linkedin } from "./icons/linkedin.svg";
+import { ReactComponent as Copy } from "./icons/clipboard.svg";
+import { ReactComponent as Cancel } from "./icons/close.svg";
 
 import callme from "./call-me.png";
 import hearts from "./hearts.png";
@@ -9,9 +11,9 @@ import hearts from "./hearts.png";
 import "./footer.scss";
 
 export function Footer() {
-  const [popupVisible, setPopupVisible] = useState(false);
+  const [isContacting, contact] = useState(true);
 
-  const onContact = () => {
+  const onCopy = () => {
     try {
       navigator.clipboard.writeText("joshua.rutherford1@gmail.com");
     } catch (e) {
@@ -29,15 +31,28 @@ export function Footer() {
           alt="Cartoon of me making a phone gesture with my hand"
         />
         <h3>Convinced yet?</h3>
-        <div className="popup-wrap">
-          {popupVisible && (
-            <div className="popup">
-              <button onClick={onContact} disabled>
-                Click to Copy email address to clipboard
-              </button>
-            </div>
-          )}
-          <button onClick={() => setPopupVisible(true)}>Get in touch</button>
+        <div className="contact-button-wrap">
+          <div className={`contact-button ${isContacting ? "contacting" : ""}`}>
+            {isContacting ? (
+              <>
+                <div className="email">contact@joshrutherford.me</div>
+                <div className="copy">
+                  <button onClick={onCopy}>
+                    <Copy width={16} height={16} />
+                    Copy
+                  </button>
+                </div>
+                <div className="cancel">
+                  <button onClick={() => contact(false)}>
+                    <Cancel width={16} height={16} />
+                    Cancel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <button onClick={() => contact(true)}>Get in touch</button>
+            )}
+          </div>
         </div>
       </div>
       <div className="meta">

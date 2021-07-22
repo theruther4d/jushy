@@ -1,8 +1,9 @@
 @import "../variables.scss";
 
 $black: darken($primary, 35);
-$logo_area: 3rem;
-$logo_size: 1.5rem;
+$logo_area: 3.5rem;
+$logo_size: 1.75rem;
+$logo_padding: 1rem;
 $horizontal_breakpoint: 724px;
 
 .history {
@@ -69,7 +70,7 @@ $horizontal_breakpoint: 724px;
   }
 
   dl {
-    padding-left: calc(#{$logo_area} + (#{$card_padding} * 2));
+    padding-left: calc(#{$logo_area} + (#{$logo_padding} * 2));
   }
 
   dt {
@@ -86,7 +87,7 @@ $horizontal_breakpoint: 724px;
       content: "";
       position: absolute;
       bottom: 0;
-      left: 0;
+      left: calc(-#{$logo_padding} - #{$logo_area});
       right: 0;
       height: 2px;
       background: rgba($black, 0.25);
@@ -104,7 +105,7 @@ $horizontal_breakpoint: 724px;
   figure {
     margin: 0;
     position: absolute;
-    left: calc(-#{$logo_area} - #{$card_padding});
+    left: calc(-#{$logo_area} - #{$logo_padding});
     top: -1.25rem;
     width: $logo_area;
     height: $logo_area;
