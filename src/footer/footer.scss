@@ -1,0 +1,44 @@
+@import "../variables.scss";
+
+.footer {
+  margin-top: 6rem;
+  border-top: 4px solid $primary;
+  padding: 4rem 0;
+
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: $max_width;
+    margin: 0 auto;
+    padding: 0 $gutter;
+  }
+
+  .social {
+    display: flex;
+
+    a {
+      display: block;
+
+      + a {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  .popup-wrap {
+    position: relative;
+  }
+
+  .popup {
+    position: absolute;
+    top: calc(-100% - 0.5rem);
+
+    button {
+      white-space: nowrap;
+      background: $secondary;
+      color: black;
+      border-color: $secondary;
+    }
+  }
+}

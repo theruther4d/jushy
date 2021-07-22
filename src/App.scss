@@ -25,7 +25,7 @@ html {
 }
 
 body {
-  padding: 2rem 0 100px;
+  padding: 2rem 0 0;
 }
 
 h1,
@@ -92,13 +92,28 @@ a {
   left: -2000px;
 }
 
+button {
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  box-shadow: none;
+  margin: 0;
+  cursor: pointer;
+  background: black;
+  border: 2px solid white;
+  color: white;
+
+  &:not(.link):hover {
+    background: white;
+    color: black;
+    border: 2px solid transparent;
+  }
+}
+
 button.link {
   appearance: none;
+  border: none;
   background: transparent;
   text-decoration: underline;
   color: $primary;
-  font: inherit;
-  border: none;
-  box-shadow: none;
-  cursor: pointer;
 }

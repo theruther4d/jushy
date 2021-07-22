@@ -6,6 +6,7 @@ import { ReactComponent as RiskMatch } from "./logos/riskmatch.svg";
 import { ReactComponent as Vertafore } from "./logos/vertafore.svg";
 
 import "./history.scss";
+import { Fragment } from "react";
 
 const today = new Date();
 
@@ -34,7 +35,7 @@ export function History() {
             const duration = formatDistance(start, end);
 
             return (
-              <>
+              <Fragment key={`${job.name}-${job.title}`}>
                 <dt>{job.name}</dt>
                 <dd>
                   <figure>
@@ -56,7 +57,7 @@ export function History() {
                     <time>{duration}</time>
                   </span>
                 </dd>
-              </>
+              </Fragment>
             );
           })}
         </dl>

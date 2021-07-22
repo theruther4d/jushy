@@ -198,7 +198,7 @@ $box_outline: 2px;
 
   time {
     &:hover {
-      outline: $box_outline solid yellow;
+      outline: $box_outline solid $secondary;
 
       &:before {
         content: attr(data-tip);
@@ -206,7 +206,7 @@ $box_outline: 2px;
         left: 50%;
         transform: translateX(-50%);
         padding: 0.25rem;
-        background: yellow;
+        background: $secondary;
         color: black;
         display: flex;
         justify-content: center;

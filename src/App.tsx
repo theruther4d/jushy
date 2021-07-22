@@ -5,6 +5,7 @@ import { History } from "./history/History";
 import { SelfTaught } from "./self-taught/SelfTaught";
 import { Stats } from "./stats/Stats";
 import { Hero } from "./hero/Hero";
+import { Footer } from "./footer/Footer";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ function App() {
       <SelfTaught />
       <Stats />
       <Contributions />
+      <Footer />
     </QueryClientProvider>
   );
 }
