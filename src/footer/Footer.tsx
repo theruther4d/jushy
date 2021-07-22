@@ -6,7 +6,7 @@ import "./footer.scss";
 import { useState } from "react";
 
 export function Footer() {
-  const [popupVisible] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false);
 
   const onContact = () => {
     try {
@@ -18,7 +18,7 @@ export function Footer() {
 
   return (
     <footer className="footer">
-      <div className="content">
+      <div className="contact">
         <div className="popup-wrap">
           {popupVisible && (
             <div className="popup">
@@ -27,20 +27,27 @@ export function Footer() {
               </button>
             </div>
           )}
-          <button onClick={() => {}}>Get in touch</button>
+          <button onClick={() => setPopupVisible(true)}>Get in touch</button>
         </div>
+      </div>
+      <div className="meta">
+        <span className="copyright">
+          &copy; {today.getFullYear()} Josh Rutherford. All rights reserved.
+        </span>
         <div className="social">
           <a href="https://github.com/theruther4d">
             <Github width={36} height={36} />
           </a>
-          <a href="https://www.linkedin.com/in/josh-rutherford-b10b2190">
-            <Linkedin width={36} height={36} />
-          </a>
           <a href="https://codepen.io/the_ruther4d">
             <Codepen width={36} height={36} />
+          </a>
+          <a href="https://www.linkedin.com/in/josh-rutherford-b10b2190">
+            <Linkedin width={36} height={36} />
           </a>
         </div>
       </div>
     </footer>
   );
 }
+
+const today = new Date();

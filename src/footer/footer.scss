@@ -3,15 +3,31 @@
 .footer {
   margin-top: 6rem;
   border-top: 4px solid $primary;
-  padding: 4rem 0;
+  // padding: 4rem 0;
 
-  .content {
+  .contact {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 2rem;
+    margin: 2rem 0 0;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     max-width: $max_width;
     margin: 0 auto;
     padding: 0 $gutter;
+    border-top: 1px solid rgba(white, 0.5);
+  }
+
+  .copyright,
+  .social {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   .social {
@@ -24,6 +40,12 @@
         margin-left: 1rem;
       }
     }
+  }
+
+  .copyright {
+    font-size: 0.75rem;
+    font-weight: 200;
+    color: rgba(white, 0.75);
   }
 
   .popup-wrap {
