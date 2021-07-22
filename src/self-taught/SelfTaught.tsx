@@ -5,7 +5,7 @@ export function SelfTaught() {
   return (
     <section className="self-taught">
       <main>
-        <h2>Proudly self-taught</h2>
+        <h3>Proudly self-taught</h3>
         <p>
           From zero to landing my first development job in San Francisco in
           under a year. Working at apple in 2.5 years. Team Lead in 3 years.

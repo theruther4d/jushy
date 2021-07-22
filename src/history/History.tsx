@@ -14,9 +14,9 @@ export function History() {
   return (
     <section className="history">
       <header>
-        <h2>
+        <h3>
           I've been lucky to work on some <em>amazing</em> teams.
-        </h2>
+        </h3>
         <p>
           But my best work is still ahead of me. If you think your team has a
           place for me <a href="mailto:">get in touch.</a>

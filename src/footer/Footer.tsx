@@ -28,7 +28,7 @@ export function Footer() {
           height="173px"
           alt="Cartoon of me making a phone gesture with my hand"
         />
-        <h2>Convinced yet?</h2>
+        <h3>Convinced yet?</h3>
         <div className="popup-wrap">
           {popupVisible && (
             <div className="popup">

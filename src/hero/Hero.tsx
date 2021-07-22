@@ -15,7 +15,7 @@ export function Hero() {
         </figure>
         <div>
           <h1>Josh Rutherford</h1>
-          <h3>Software Developer</h3>
+          <h2>Software Developer</h2>
         </div>
       </header>
       <main>

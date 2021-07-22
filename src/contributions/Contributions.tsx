@@ -30,7 +30,7 @@ export function Contributions() {
 
   return (
     <section className="contributions">
-      <h2 className="breakable">Code Contributions</h2>
+      <h3 className="breakable">Code Contributions</h3>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
