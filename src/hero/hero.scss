@@ -28,6 +28,10 @@
     transform: translateY(20px);
     z-index: -1;
 
+    @media all and (min-width: 724px) {
+      transform: translateY(0px);
+    }
+
     &:after {
       content: "";
       position: absolute;

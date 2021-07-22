@@ -24,6 +24,8 @@ export function Footer() {
       <div className="contact">
         <img
           src={callme}
+          width="173px"
+          height="173px"
           alt="Cartoon of me making a phone gesture with my hand"
         />
         <h2>Convinced yet?</h2>
@@ -51,7 +53,12 @@ export function Footer() {
           </a>
         </div>
         <span className="copyright">
-          <img src={hearts} alt="Cartoon of my face surrounded by hearts." />
+          <img
+            src={hearts}
+            alt="Cartoon of my face surrounded by hearts."
+            width="42px"
+            height="42px"
+          />
           &copy; {today.getFullYear()} Josh Rutherford. All rights reserved.
         </span>
       </div>

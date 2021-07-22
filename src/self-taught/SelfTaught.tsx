@@ -41,7 +41,8 @@ export function SelfTaught() {
           </figcaption>
           <img
             src={pondering}
-            width={220}
+            width="170px"
+            height="170px"
             alt="A cartoon of my face, pondering the code with an error."
           />
         </figure>

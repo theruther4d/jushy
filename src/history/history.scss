@@ -39,7 +39,7 @@ $horizontal_breakpoint: 724px;
     overflow: hidden;
     display: inline-block;
     text-align: left;
-    padding-bottom: $card_padding;
+    padding-bottom: calc(#{$card_padding} / 4);
 
     @media all and (min-width: $horizontal_breakpoint) {
       margin-left: 2rem;

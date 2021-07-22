@@ -6,7 +6,12 @@ export function Hero() {
     <section className="hero">
       <header>
         <figure>
-          <img src={waving} alt="Cartoon of me waving" width="156" />
+          <img
+            src={waving}
+            alt="Cartoon of me waving"
+            width="156px"
+            height="156px"
+          />
         </figure>
         <div>
           <h1>Josh Rutherford</h1>
