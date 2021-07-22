@@ -28,12 +28,17 @@
     img {
       position: absolute;
       bottom: 0;
-      left: -10px;
+      right: -10px;
       display: block;
       width: 173px;
       height: 173px;
       z-index: -1;
-      transform: rotateY(180deg);
+
+      @media all and (min-width: 470px) {
+        right: unset;
+        left: -10px;
+        transform: rotateY(180deg);
+      }
 
       @media all and (min-width: 768px) {
         left: 10%;
@@ -44,7 +49,7 @@
       flex-basis: 100%;
       text-align: center;
       margin-bottom: 2rem;
-      text-shadow: 0 0 2px black;
+      text-shadow: 0 0 4px black;
     }
   }
 
