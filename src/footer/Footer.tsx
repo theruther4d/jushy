@@ -43,12 +43,15 @@ export function Footer() {
       <div className="meta">
         <div className="social">
           <a href="https://github.com/theruther4d">
+            <span className="offscreen">Github</span>
             <Github width={36} height={36} />
           </a>
           <a href="https://codepen.io/the_ruther4d">
+            <span className="offscreen">Codepen</span>
             <Codepen width={36} height={36} />
           </a>
           <a href="https://www.linkedin.com/in/josh-rutherford-b10b2190">
+            <span className="offscreen">Linkedin</span>
             <Linkedin width={36} height={36} />
           </a>
         </div>
