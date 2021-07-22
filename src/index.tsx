@@ -1,13 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { hydrate, render } from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-ReactDOM.render(
+const rootElement = document.getElementById("root");
+const mount = rootElement?.hasChildNodes() ? hydrate : render;
+mount(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById("root")
+  rootElement
 );
 
 // If you want to start measuring performance in your app, pass a function

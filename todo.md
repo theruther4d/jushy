@@ -9,7 +9,6 @@
 - get in touch -> copy to clipboard
 - favicon
 - title
-- prerender with something like react-static?
 
 ## Hero
 
