@@ -1,5 +1,7 @@
 @import "../variables.scss";
 
+$horizontal_breakpoint: 470px;
+
 .footer {
   margin-top: 6rem;
   overflow: hidden;
@@ -13,6 +15,10 @@
     height: 8px;
     position: absolute;
     background: linear-gradient(to right, $primary, darken($primary, 30));
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      background: linear-gradient(to left, $primary, darken($primary, 30));
+    }
   }
 
   .contact {
@@ -34,7 +40,7 @@
       height: 173px;
       z-index: -1;
 
-      @media all and (min-width: 470px) {
+      @media all and (min-width: $horizontal_breakpoint) {
         right: unset;
         left: -10px;
         transform: rotateY(180deg);
@@ -101,7 +107,7 @@
     }
   }
 
-  @media all and (min-width: 470px) {
+  @media all and (min-width: $horizontal_breakpoint) {
     .meta {
       justify-content: space-between;
       padding: 0.5rem $gutter 0;

@@ -1,16 +1,12 @@
 import "./hero.scss";
-import peeking from "./peeking.png";
+import waving from "./waving.png";
 
 export function Hero() {
   return (
     <section className="hero">
       <header>
         <figure>
-          <img
-            src={peeking}
-            alt="Cartoon of me peeking over a laptop"
-            width="100"
-          />
+          <img src={waving} alt="Cartoon of me waving" width="156" />
         </figure>
         <div>
           <h1>Josh Rutherford</h1>
