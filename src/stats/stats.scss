@@ -43,7 +43,12 @@
 
     &:before {
       content: "";
-      background: white;
+      background-color: white;
+      background-image: linear-gradient(
+        to top right,
+        lighten(desaturate($primary, 50), 35),
+        white
+      );
       border-radius: $card_radius;
       position: absolute;
       top: -1rem;

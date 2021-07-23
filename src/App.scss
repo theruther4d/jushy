@@ -83,15 +83,6 @@ a {
   overflow-wrap: break-word;
 }
 
-.offscreen {
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  position: absolute;
-  top: -2000px;
-  left: -2000px;
-}
-
 button {
   border-radius: 2rem;
   padding: 0.5rem 1rem;

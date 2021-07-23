@@ -4,3 +4,12 @@ $secondary: #fddf3a;
 $max_width: 1000px;
 $card_padding: 2rem;
 $card_radius: 2rem;
+
+.offscreen {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+  top: -2000px;
+  left: -2000px;
+}
