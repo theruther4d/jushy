@@ -174,7 +174,7 @@ $box_outline: 2px;
     position: relative;
 
     &[data-level="NONE"] {
-      background: rgba($primary, 0.1);
+      background: rgba($primary, 0.05);
     }
 
     &[data-level="FIRST_QUARTILE"] {
