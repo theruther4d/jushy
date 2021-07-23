@@ -14,6 +14,7 @@ import {
 } from "date-fns";
 
 import "./contributions.scss";
+import { isChromeHeadless } from "../isChrome";
 
 const token = process.env.REACT_APP_GITHUB_SECRET;
 
@@ -31,7 +32,7 @@ export function Contributions() {
   return (
     <section className="contributions">
       <h3 className="breakable">Code Contributions</h3>
-      {isLoading ? (
+      {isChromeHeadless ? null : isLoading ? (
         <p>Loading...</p>
       ) : (
         <div className="content">

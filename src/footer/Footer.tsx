@@ -11,7 +11,7 @@ import hearts from "./hearts.png";
 import "./footer.scss";
 
 export function Footer() {
-  const [isContacting, contact] = useState(true);
+  const [isContacting, contact] = useState(false);
 
   const onCopy = () => {
     try {
