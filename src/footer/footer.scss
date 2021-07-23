@@ -168,7 +168,11 @@ $img_size: 173px;
     justify-content: center;
     position: relative;
     flex-wrap: wrap;
-    margin-bottom: 1rem;
+    margin-bottom: 10rem;
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      margin-bottom: 1rem;
+    }
 
     .copy {
       border-radius: 0 2rem 2rem 0;
@@ -206,8 +210,8 @@ $img_size: 173px;
 
     .email,
     .width-holder {
-      font-size: 0.75rem;
       font: inherit;
+      font-size: 0.75rem;
 
       @media all and (min-width: 350px) {
         font-size: 1rem;
@@ -228,6 +232,8 @@ $img_size: 173px;
       background: black;
       border: 2px solid white;
       border-radius: 2rem 0 0 2rem;
+      margin: 0;
+      min-height: 100%;
 
       &:focus {
         outline: none;
