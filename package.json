@@ -28,7 +28,7 @@
     "build:local": "REACT_APP_GITHUB_SECRET=\"$(< src/github.secret.txt)\" react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postbuild": "node scripts/prerender.js"
+    "xxx_postbuild": "node scripts/prerender.js"
   },
   "eslintConfig": {
     "extends": [
