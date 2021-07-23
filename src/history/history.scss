@@ -39,7 +39,7 @@ $horizontal_breakpoint: 724px;
     text-align: left;
     padding-bottom: calc(#{$card_padding} / 4);
     position: relative;
-    perspective: 500px;
+    perspective: 800px;
 
     &:before {
       content: "";
@@ -50,24 +50,16 @@ $horizontal_breakpoint: 724px;
       left: 0;
       background: $primary;
       border-radius: $card_radius;
-
-      @media all and (min-width: 380px) {
-        top: -0.5rem;
-        right: -1rem;
-        bottom: -0.5rem;
-        left: -1rem;
-        transform-style: preserve-3d;
-        backface-visibility: hidden;
-        transform: rotateX(1deg) rotateY(350deg) rotateZ(-1deg) translateZ(10px);
-      }
+      top: -1rem;
+      right: -1rem;
+      bottom: -1rem;
+      left: -1rem;
+      transform: rotateX(1deg) rotateY(350deg) translateZ(-30px)
+        translatex(-10px);
     }
 
-    @media all and (min-width: 380px) {
-      .card-content {
-        transform-style: preserve-3d;
-        backface-visibility: hidden;
-        transform: rotateY(4deg) translateZ(-8px);
-      }
+    .card-content {
+      transform: rotateY(4deg);
     }
 
     @media all and (min-width: $horizontal_breakpoint) {
