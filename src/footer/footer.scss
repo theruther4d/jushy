@@ -120,8 +120,13 @@ $button_horizontal_breakpoint: 450px;
     }
   }
 
+  // Hold spot for button in both states:
   .contact-button-wrap {
     min-height: 9rem;
+
+    @media all and (min-width: $button_horizontal_breakpoint) {
+      min-height: unset;
+    }
   }
 
   .contact-button {
@@ -141,6 +146,7 @@ $button_horizontal_breakpoint: 450px;
       border-radius: 0;
       width: 100%;
       border: 0;
+      display: flex;
 
       &:hover .fill-target {
         fill: black;
@@ -183,6 +189,10 @@ $button_horizontal_breakpoint: 450px;
       .copy,
       .cancel {
         border-left: 2px solid white;
+      }
+
+      .email {
+        padding: 0.5rem;
       }
     }
   }

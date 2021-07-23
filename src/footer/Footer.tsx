@@ -30,7 +30,7 @@ export function Footer() {
           height="173px"
           alt="Cartoon of me making a phone gesture with my hand"
         />
-        <h3>Convinced yet?</h3>
+        <h3>Intrigued?</h3>
         <div className="contact-button-wrap">
           <div className={`contact-button ${isContacting ? "contacting" : ""}`}>
             {isContacting ? (
