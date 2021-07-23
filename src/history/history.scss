@@ -34,17 +34,44 @@ $horizontal_breakpoint: 724px;
   .card {
     color: $black;
     max-width: 24rem;
-    margin: 0 auto;
-    background: $primary;
-    border-radius: $card_radius;
-    overflow: hidden;
+    margin: 2.5rem auto;
     display: inline-block;
     text-align: left;
     padding-bottom: calc(#{$card_padding} / 4);
+    position: relative;
+    perspective: 500px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: $primary;
+      border-radius: $card_radius;
+
+      @media all and (min-width: 380px) {
+        top: -0.5rem;
+        right: -1rem;
+        bottom: -0.5rem;
+        left: -1rem;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+        transform: rotateX(1deg) rotateY(350deg) rotateZ(-1deg) translateZ(10px);
+      }
+    }
+
+    @media all and (min-width: 380px) {
+      .card-content {
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+        transform: rotateY(4deg) translateZ(-8px);
+      }
+    }
 
     @media all and (min-width: $horizontal_breakpoint) {
-      margin-left: 2rem;
-      margin-right: 0;
+      margin: 2.5rem 2rem;
     }
 
     h3 {
@@ -114,7 +141,8 @@ $horizontal_breakpoint: 724px;
     align-items: center;
     justify-content: center;
     border-radius: 1rem;
-    box-shadow: 0 4px 7px 1px rgba($black, 0.07);
+    box-shadow: 0 4px 7px 1px rgba($black, 0.2),
+      0 16px 10px -12px rgba($black, 0.4);
 
     svg {
       width: $logo_size;

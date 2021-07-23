@@ -13,28 +13,30 @@ export function Stats() {
           new things and exploring. There's a lot left to know.
         </p>
       </main>
-      <dl>
-        <dd>
-          {differenceInYears(today, startDate)}
-          <sup>+</sup>
-        </dd>
-        <dt>Years Professional Experience</dt>
-        <dd>
-          {differenceInYears(today, remoteStartDate)}
-          <sup>+</sup>
-        </dd>
-        <dt>Years Leading Teams</dt>
-        <dd>
-          {differenceInYears(today, teamLeadStartDate)}
-          <sup>+</sup>
-        </dd>
-        <dt>Years Working Remotely</dt>
-        <dd>
-          {/* @TODO: */}
-          65.26
-          <sup>+</sup>
-        </dd>
-        <dt>Thousands of lines of code written</dt>
+      <dl className="card">
+        <div className="card-content">
+          <dd>
+            {differenceInYears(today, startDate)}
+            <sup>+</sup>
+          </dd>
+          <dt>Years Professional Experience</dt>
+          <dd>
+            {differenceInYears(today, remoteStartDate)}
+            <sup>+</sup>
+          </dd>
+          <dt>Years Leading Teams</dt>
+          <dd>
+            {differenceInYears(today, teamLeadStartDate)}
+            <sup>+</sup>
+          </dd>
+          <dt>Years Working Remotely</dt>
+          <dd>
+            {/* @TODO: */}
+            65.26
+            <sup>+</sup>
+          </dd>
+          <dt>Thousands of lines of code written</dt>
+        </div>
       </dl>
     </section>
   );

@@ -31,13 +31,29 @@
   }
 
   dl {
-    background: white;
     color: black;
-    padding: 2rem 3rem;
-    border-radius: $card_radius;
+    margin: 2rem 0;
+    padding: 2rem;
     display: inline-block;
     text-align: left;
     max-width: 100%;
+    perspective: 500px;
+    position: relative;
+
+    &:before {
+      content: "";
+      background: white;
+      border-radius: $card_radius;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      transform: rotateX(6deg) rotateY(14deg) rotateZ(-1deg) translateZ(10px);
+    }
   }
 
   dd,

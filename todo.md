@@ -5,8 +5,6 @@
 - print version => resume
 - downloadable pdf for resume
 - clean up repetitive styling for sections
-- 3d effect on cards
-- get in touch -> copy to clipboard
 
 ## Hero
 
