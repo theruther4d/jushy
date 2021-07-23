@@ -48,7 +48,12 @@ $horizontal_breakpoint: 724px;
       right: 0;
       bottom: 0;
       left: 0;
-      background: $primary;
+      background-color: $primary;
+      background-image: linear-gradient(
+        to top left,
+        darken($primary, 8),
+        $primary
+      );
       border-radius: $card_radius;
       top: -1rem;
       right: -1rem;

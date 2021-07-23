@@ -44,11 +44,11 @@
     &:before {
       content: "";
       background-color: $primary;
-      // background-image: linear-gradient(
-      //   to top right,
-      //   darken($secondary, 10),
-      //   $secondary
-      // );
+      background-image: linear-gradient(
+        to right,
+        darken($primary, 8),
+        $primary
+      );
       border-radius: $card_radius;
       position: absolute;
       top: -1rem;

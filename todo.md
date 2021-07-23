@@ -1,14 +1,13 @@
 # TODO:
 
+- clean up copy
+- css vars + shifting $primary color animation? slowly hue rotate?
+
 ## General
 
 - print version => resume
 - downloadable pdf for resume
 - clean up repetitive styling for sections
-
-## Hero
-
-- add more bio, way to show/hide extended version?
 
 ## Contributions
 
