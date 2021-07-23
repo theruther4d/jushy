@@ -1,57 +1,125 @@
-import { useState } from "react";
+import { useEffect, useRef, useState, MouseEvent } from "react";
 import { ReactComponent as Codepen } from "./icons/codepen.svg";
 import { ReactComponent as Github } from "./icons/github.svg";
 import { ReactComponent as Linkedin } from "./icons/linkedin.svg";
 import { ReactComponent as Copy } from "./icons/clipboard.svg";
-import { ReactComponent as Cancel } from "./icons/close.svg";
+import { ReactComponent as CopyFailed } from "./icons/clipboard-sad.svg";
+import { ReactComponent as CopySuccess } from "./icons/clipboard-check.svg";
 
 import callme from "./call-me.png";
 import hearts from "./hearts.png";
+import awww from "./awww.png";
+import fuck from "./fuck.png";
 
 import "./footer.scss";
 
-export function Footer() {
-  const [isContacting, contact] = useState(false);
+const address = "contact@joshrutherford.me";
+const RESET_MS = 4000;
 
-  const onCopy = () => {
+export function Footer() {
+  const unmounted = useRef(false);
+  const focused = useRef(false);
+  const resetTimer = useRef<NodeJS.Timeout | number>();
+  const input = useRef<HTMLInputElement | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const CopyIcon = failed ? CopyFailed : copied ? CopySuccess : Copy;
+
+  const onSelect = () => {
+    if (!input.current) return;
+    if (focused.current) return;
+
+    input.current.setSelectionRange(0, address.length);
+    focused.current = true;
+  };
+
+  const onCopy = (e: MouseEvent) => {
+    if (failed) return;
+
     try {
-      navigator.clipboard.writeText("joshua.rutherford1@gmail.com");
+      navigator.clipboard.writeText(address);
+
+      setCopied(true);
+
+      clearTimeout(resetTimer.current as number);
+      resetTimer.current = setTimeout(function resetCopiedState() {
+        if (unmounted.current) return;
+        setCopied(false);
+      }, RESET_MS);
     } catch (e) {
-      alert("couldn't copy to clipboard :/");
+      setCopied(false);
+      setFailed(true);
+    } finally {
+      (e.target as HTMLButtonElement).blur();
     }
   };
 
+  useEffect(() => {
+    unmounted.current = false;
+
+    return function onUnmount() {
+      unmounted.current = true;
+    };
+  }, []);
+
   return (
     <footer className="footer">
-      <div className="contact">
-        <img
-          src={callme}
-          width="173px"
-          height="173px"
-          alt="Cartoon of me making a phone gesture with my hand"
-        />
-        <h3>Intrigued?</h3>
-        <div className="contact-button-wrap">
-          <div className={`contact-button ${isContacting ? "contacting" : ""}`}>
-            {isContacting ? (
-              <>
-                <div className="email">contact@joshrutherford.me</div>
-                <div className="copy">
-                  <button onClick={onCopy}>
-                    <Copy width={16} height={16} />
-                    Copy
-                  </button>
-                </div>
-                <div className="cancel">
-                  <button onClick={() => contact(false)}>
-                    <Cancel width={16} height={16} />
-                    Cancel
-                  </button>
-                </div>
-              </>
-            ) : (
-              <button onClick={() => contact(true)}>Get in touch</button>
-            )}
+      <div className="contact" id="get-in-touch">
+        <figure className={failed ? "failed" : copied ? "copied" : ""}>
+          <img
+            className="uncopied-img"
+            src={callme}
+            width="173px"
+            height="173px"
+            alt="Cartoon of me making a phone gesture with my hand"
+            aria-hidden={copied}
+          />
+          <img
+            className="copied-img"
+            src={awww}
+            width="173px"
+            height="173px"
+            alt="Cartoon of me making a heart gesture with my hands"
+            aria-hidden={!copied && !failed}
+          />
+          <img
+            className="failed-img"
+            src={fuck}
+            width="173px"
+            height="173px"
+            alt="Cartoon of me making a heart gesture with my hands"
+            aria-hidden={!failed}
+          />
+        </figure>
+        <h3>Get in touch</h3>
+        <div className="contact-button">
+          <button
+            disabled={failed}
+            className="copy"
+            onClick={onCopy}
+            title="Copy email address to clipboard"
+          >
+            <CopyIcon width={24} height={24} />
+          </button>
+          <div className="email-wrap">
+            <input
+              ref={input}
+              className="email"
+              value={address}
+              onChange={function preventChange() {}}
+              onClick={onSelect}
+              onBlur={() => (focused.current = false)}
+            />
+            <div className="width-holder">{address}</div>
+          </div>
+          <div className="message">
+            {failed ? (
+              <div className="error-message">
+                Oops! Something went wrong. Try copying it manually 🥲
+              </div>
+            ) : copied ? (
+              <div className="success-message">Copied! 🎉</div>
+            ) : null}
           </div>
         </div>
       </div>

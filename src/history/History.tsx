@@ -6,11 +6,25 @@ import { ReactComponent as RiskMatch } from "./logos/riskmatch.svg";
 import { ReactComponent as Vertafore } from "./logos/vertafore.svg";
 
 import "./history.scss";
-import { Fragment } from "react";
+import { Fragment, MouseEvent } from "react";
 
 const today = new Date();
+const contactId = "get-in-touch";
 
 export function History() {
+  const getInTouch = (event: MouseEvent) => {
+    try {
+      const section = document.getElementById(contactId);
+      window.scroll({
+        top: section!.getBoundingClientRect().top,
+        behavior: "smooth",
+      });
+      event.preventDefault();
+    } catch (error) {
+      window.location.hash = contactId;
+    }
+  };
+
   return (
     <section className="history">
       <header>
@@ -19,7 +33,10 @@ export function History() {
         </h3>
         <p>
           But my best work is still ahead of me. If you think your team has a
-          place for me <a href="mailto:">get in touch.</a>
+          place for me{" "}
+          <a onClick={getInTouch} href="#get-in-touch">
+            get in touch.
+          </a>
         </p>
       </header>
       <main>
