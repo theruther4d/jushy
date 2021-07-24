@@ -23,7 +23,6 @@ export function Footer() {
   const input = useRef<HTMLInputElement | null>(null);
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
-  const CopyIcon = failed ? CopyFailed : copied ? CopySuccess : Copy;
 
   const onSelect = () => {
     if (!input.current) return;
@@ -40,7 +39,6 @@ export function Footer() {
       navigator.clipboard.writeText(address);
 
       setCopied(true);
-
       clearTimeout(resetTimer.current as number);
       resetTimer.current = setTimeout(function resetCopiedState() {
         if (unmounted.current) return;
@@ -99,7 +97,15 @@ export function Footer() {
             onClick={onCopy}
             title="Copy email address to clipboard"
           >
-            <CopyIcon width={24} height={24} />
+            <div
+              className={`icon-wrap ${
+                failed ? "failed" : copied ? "success" : ""
+              }`}
+            >
+              <CopySuccess />
+              <Copy />
+              <CopyFailed />
+            </div>
           </button>
           <div className="email-wrap">
             <input
