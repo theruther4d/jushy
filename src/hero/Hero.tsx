@@ -46,6 +46,7 @@ export function Hero() {
             href="https://blog.codepen.io/2013/08/23/josh-rutherford-gets-a-job-on-codepen/"
             rel="noreferrer"
             target="_blank"
+            tabIndex={showMore ? undefined : -1}
           >
             I left my design job in Arkansas for a development gig at a startup
             in San Francisco
@@ -60,6 +61,7 @@ export function Hero() {
           literature.{" "}
           <button
             className="link"
+            tabIndex={showMore ? undefined : -1}
             onClick={function toggle() {
               setShowMore((showing) => !showing);
             }}

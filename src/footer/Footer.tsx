@@ -105,6 +105,7 @@ export function Footer() {
             <input
               ref={input}
               className="email"
+              aria-label="copy my email address"
               value={address}
               onChange={function preventChange() {}}
               onClick={onSelect}
