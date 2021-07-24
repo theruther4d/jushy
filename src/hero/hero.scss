@@ -6,11 +6,7 @@ $horizontal_breakpoint: 724px;
   display: grid;
   justify-content: center;
   gap: 2rem;
-  grid-template-columns: minmax(auto, 30rem);
-
-  @media all and (min-width: $horizontal_breakpoint) {
-    grid-template-columns: 1fr 1fr;
-  }
+  grid-template-columns: (minmax(auto, 30rem));
 
   h1 {
     font-size: 3.5rem;
@@ -46,19 +42,25 @@ $horizontal_breakpoint: 724px;
 
   .content {
     align-self: flex-end;
+    grid-column: 1;
   }
 
   .more-content {
+    display: grid;
     grid-column: 1 / span 2;
-
-    @media all and (min-width: $horizontal_breakpoint) {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: inherit;
-    }
+    gap: inherit;
+    grid-template-columns: inherit;
 
     &:not(.visible) {
       @extend .offscreen;
+    }
+  }
+
+  @media all and (min-width: $horizontal_breakpoint) {
+    grid-template-columns: 1fr 1fr;
+
+    .content {
+      grid-column: unset;
     }
   }
 }
