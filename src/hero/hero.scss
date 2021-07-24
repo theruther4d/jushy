@@ -1,8 +1,17 @@
 @import "../variables.scss";
 
-$horizontal_breakpoint: 800px;
+$horizontal_breakpoint: 724px;
 
 .hero {
+  display: grid;
+  justify-content: center;
+  gap: 2rem;
+  grid-template-columns: minmax(auto, 30rem);
+
+  @media all and (min-width: $horizontal_breakpoint) {
+    grid-template-columns: 1fr 1fr;
+  }
+
   h1 {
     font-size: 3.5rem;
     line-height: 3rem;
@@ -16,19 +25,13 @@ $horizontal_breakpoint: 800px;
   }
 
   p {
-    max-width: 30rem;
-    margin-bottom: 0;
+    margin: 0;
   }
 
   figure {
     margin: 0;
     position: relative;
-    transform: translateY(20px);
     z-index: -1;
-
-    @media all and (min-width: $horizontal_breakpoint) {
-      transform: translateY(0px);
-    }
 
     &:after {
       content: "";
@@ -41,44 +44,21 @@ $horizontal_breakpoint: 800px;
     }
   }
 
-  header,
-  main {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  header {
-    max-width: 30rem;
-
-    @media all and (min-width: $horizontal_breakpoint) {
-      max-width: unset;
-    }
+  .content {
+    align-self: flex-end;
   }
 
   .more-content {
+    grid-column: 1 / span 2;
+
+    @media all and (min-width: $horizontal_breakpoint) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: inherit;
+    }
+
     &:not(.visible) {
       @extend .offscreen;
-    }
-  }
-
-  @media all and (min-width: $horizontal_breakpoint) {
-    display: flex;
-    justify-content: center;
-    padding-top: 4rem;
-
-    header,
-    main {
-      flex-basis: 50%;
-    }
-
-    header {
-      display: flex;
-      align-self: flex-start;
-      margin-right: 2rem;
-
-      figure {
-        margin-right: 1rem;
-      }
     }
   }
 }
