@@ -8,8 +8,8 @@ import { ReactComponent as CopySuccess } from "./icons/clipboard-check.svg";
 
 import callme from "./call-me.png";
 import hearts from "./hearts.png";
-import awww from "./awww.png";
 import fuck from "./fuck.png";
+import highFive from "./high-five.png";
 
 import "./footer.scss";
 
@@ -74,7 +74,7 @@ export function Footer() {
           />
           <img
             className="copied-img"
-            src={awww}
+            src={highFive}
             width="173px"
             height="173px"
             alt="Cartoon of me making a heart gesture with my hands"
