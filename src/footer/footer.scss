@@ -246,9 +246,14 @@ $img_size: 173px;
     .width-holder {
       font: inherit;
       font-size: 0.75rem;
+      max-height: 4rem;
 
       @media all and (min-width: 350px) {
         font-size: 1rem;
+      }
+
+      @media all and (min-width: 450px) {
+        font-size: 1.25rem;
       }
     }
 

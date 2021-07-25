@@ -267,4 +267,28 @@ $box_outline: 2px;
       }
     }
   }
+
+  .controls {
+  }
+
+  .scroll-button {
+    border: none;
+    background: transparent;
+
+    &:hover {
+      background: transparent;
+      border: none;
+    }
+
+    &:disabled {
+      svg {
+        fill: rgba(white, 0.5);
+      }
+    }
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
 }
