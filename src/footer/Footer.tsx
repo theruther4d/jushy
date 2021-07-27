@@ -97,18 +97,19 @@ export function Footer() {
         <h3 className="noprint">Get in touch</h3>
         <div className="contact-button">
           <button
-            disabled={failed}
-            className="copy noprint"
+            disabled={copied || failed}
+            className={cn("copy noprint", { copied, failed })}
             onClick={onCopy}
             title="Copy email address to clipboard"
           >
             <div
-              className={`icon-wrap ${
-                failed ? "failed" : copied ? "success" : ""
-              }`}
+              className={cn("icon-wrap", {
+                failed,
+                success: copied,
+              })}
             >
               <CopySuccess />
-              <Copy />
+              <Copy className="icon" />
               <CopyFailed />
             </div>
           </button>
@@ -127,10 +128,10 @@ export function Footer() {
           <div className="message noprint">
             {failed ? (
               <div className="error-message">
-                Oops! Something went wrong. Try copying it manually 🥲
+                Oops! Something went wrong. Try copying it manually :/
               </div>
             ) : copied ? (
-              <div className="success-message">Copied! 🎉</div>
+              <div className="success-message">Copied!</div>
             ) : null}
           </div>
         </div>

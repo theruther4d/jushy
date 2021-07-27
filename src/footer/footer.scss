@@ -241,6 +241,11 @@ $img_size: 173px;
       position: relative;
       overflow: hidden;
 
+      &.copied,
+      &.failed {
+        cursor: unset;
+      }
+
       .icon-wrap {
         transition: transform 0.25s ease;
         position: absolute;
@@ -270,7 +275,19 @@ $img_size: 173px;
         cursor: unset;
       }
 
-      &:focus {
+      .icon {
+        transition: transform 0.25s ease;
+      }
+
+      &:hover .icon {
+        transform: scale(1.1);
+      }
+
+      &:active .icon {
+        transform: scale(0.9);
+      }
+
+      &:focus-visible {
         outline: none;
         border-color: $primary;
         background: $primary;

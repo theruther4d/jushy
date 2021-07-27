@@ -7,6 +7,7 @@ $horizontal_breakpoint: 724px;
   justify-content: center;
   gap: 2rem;
   grid-template-columns: (minmax(auto, 30rem));
+  max-width: 55rem;
 
   h1 {
     font-size: 3.5rem;

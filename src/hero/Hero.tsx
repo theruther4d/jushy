@@ -23,8 +23,8 @@ export function Hero() {
       </header>
       <p className="content">
         I’m a curiosity-driven developer with over 8 years of experience. I've
-        spent most of that time focused on building web apps and UI, for the
-        last 5 years working primarily with React and Typescript.{" "}
+        spent most of that time focused on building web apps and sites, and for
+        the last 5 years I've worked primarily with React and Typescript.{" "}
         {showMore ? null : (
           <button
             className="link noprint"
@@ -41,24 +41,23 @@ export function Hero() {
         aria-hidden={!showMore}
       >
         <p>
-          My background is in design, and in 2013{" "}
+          My background is in design, and in 2013 I left my design job in
+          Arkansas for a{" "}
           <a
             href="https://blog.codepen.io/2013/08/23/josh-rutherford-gets-a-job-on-codepen/"
             rel="noreferrer"
             target="_blank"
             tabIndex={showMore ? undefined : -1}
           >
-            I left my design job in Arkansas for a development gig at a startup
-            in San Francisco
+            development gig
           </a>{" "}
-          after spending the previous year learning web development in my spare
-          time. I got the itch while working on a portfolio site for myself and
-          haven't been able to stop tinkering since.
+          at a startup in San Francisco after spending the previous year
+          learning web development in my spare time.
         </p>
         <p>
-          Currently considering individual contributor roles. Especially
-          interested in areas of nature, biology, physics, art, politics, and
-          literature.{" "}
+          I've got a strong background in the web fundamentals of HTML, CSS, and
+          Javascript while having the wealth of experience of working with React
+          and Typescript since nearly the beginning.{" "}
           <button
             className="link noprint"
             tabIndex={showMore ? undefined : -1}

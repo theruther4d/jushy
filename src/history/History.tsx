@@ -131,18 +131,19 @@ export const jobs = [
     Logo: RiskMatch,
     notes: [
       "Promoted to head of UI development in a year",
-      "Hired, trained, and managed team of 3-4 junior developers",
+      "Hired, trained, managed, and mentored team of 3-4 junior developers",
       "Used React, Typescript, Redux, MobX, SCSS, Webpack",
     ],
   },
   {
     name: "Vertafore",
-    title: "Staff Architect",
+    title: "Principal Architect",
     start: "January 1 2021",
     Logo: Vertafore,
     notes: [
-      "Promoted to core architechture group at parent company",
-      "Oversee UI development for entire companies portfolio of products",
+      "Promoted to core architecture group at parent company",
+      "Oversaw UI development for entire company's portfolio of apps",
+      "Consulted on all UI-related development company-wide",
     ],
   },
 ];
