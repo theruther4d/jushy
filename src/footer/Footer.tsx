@@ -5,6 +5,8 @@ import { ReactComponent as Linkedin } from "./icons/linkedin.svg";
 import { ReactComponent as Copy } from "./icons/clipboard.svg";
 import { ReactComponent as CopyFailed } from "./icons/clipboard-sad.svg";
 import { ReactComponent as CopySuccess } from "./icons/clipboard-check.svg";
+import { ReactComponent as SourceCode } from "./icons/code.svg";
+import { ReactComponent as PDF } from "./icons/pdf.svg";
 
 import callme from "./call-me.png";
 import hearts from "./hearts.png";
@@ -138,27 +140,29 @@ export function Footer() {
       </div>
       <div className="meta">
         <div className="social">
-          <a
-            href="https://github.com/theruther4d"
-            data-something="https://github.com/theruther4d"
-          >
-            <span className="offscreen">Github</span>
-            <Github width={36} height={36} />
+          <a href="https://github.com/theruther4d" title="Github">
+            <Github />
           </a>
-          <a
-            href="https://codepen.io/the_ruther4d"
-            data-something="https://codepen.io/the_ruther4d"
-          >
-            <span className="offscreen">Codepen</span>
-            <Codepen width={36} height={36} />
+          <a href="https://codepen.io/the_ruther4d" title="Codepen">
+            <Codepen />
           </a>
           <a
             href="https://www.linkedin.com/in/josh-rutherford-b10b2190"
-            data-something="https://www.linkedin.com/in/josh-rutherford-b10b2190"
+            title="Linkedin"
           >
-            <span className="offscreen">Linkedin</span>
-            <Linkedin width={36} height={36} />
+            <Linkedin />
           </a>
+          <div className="gap">
+            <a href="https://github.com/theruther4d/jushy" title="Source">
+              <SourceCode />
+            </a>
+            <a
+              href={`${process.env.PUBLIC_URL}/josh-rutherford-resume.pdf`}
+              title="Download as PDF"
+            >
+              <PDF />
+            </a>
+          </div>
         </div>
         <span className="copyright noprint">
           <img

@@ -1,22 +1,24 @@
 # TODO:
 
-- clean up copy
 - css vars + shifting $primary color animation? slowly hue rotate?
 
 ## General
 
-- print version => resume
-- downloadable pdf for resume
+- downloadable pdf link
 - clean up repetitive styling for sections
 
 ## Contributions
 
 - overflow indicator
-- legend
-- backwards/forwards arrows?
 - disclaimer?
 - better loading state
 - error state - use error boundary, link to github version?
+- fix month label issue on iOS after adding a few pages
+
+# Self Taught
+
+- add more LOC
+- script to do syntax highlighting for easier changes?
 
 ## Stats
 

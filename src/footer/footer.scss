@@ -136,6 +136,21 @@ $img_size: 173px;
     display: flex;
     justify-content: center;
 
+    svg {
+      width: 1rem;
+      height: 1rem;
+
+      @media all and (min-width: 275px) {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      @media all and (min-width: 350px) {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+
     a {
       display: block;
 
@@ -160,6 +175,28 @@ $img_size: 173px;
         }
       }
     }
+
+    .gap {
+      position: relative;
+      margin-left: 2rem;
+      padding-left: 2rem;
+      display: flex;
+
+      &:before {
+        content: "";
+        width: 1px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        background: rgba(white, 0.5);
+
+        @media all and (min-width: 632px) {
+          top: -1.75rem;
+          bottom: -1.75rem;
+        }
+      }
+    }
   }
 
   .copyright {
@@ -180,7 +217,7 @@ $img_size: 173px;
     }
   }
 
-  @media all and (min-width: $horizontal_breakpoint) {
+  @media all and (min-width: 632px) {
     .meta {
       justify-content: space-between;
       padding: 0.5rem $gutter 0;
