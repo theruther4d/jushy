@@ -152,7 +152,7 @@ export function Footer() {
           >
             <Linkedin />
           </a>
-          <div className="gap">
+          <div className="gap noprint">
             <a href="https://github.com/theruther4d/jushy" title="Source">
               <SourceCode />
             </a>
