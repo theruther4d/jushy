@@ -273,6 +273,8 @@ $box_outline: 2px;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    color: rgba(white, 0.75);
+    fill: rgba(white, 0.75);
 
     > * {
       margin-top: 1rem;
@@ -353,7 +355,7 @@ $box_outline: 2px;
 
     &:disabled {
       svg {
-        fill: rgba(white, 0.5);
+        fill: rgba(white, 0.25);
       }
     }
 
