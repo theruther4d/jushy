@@ -190,8 +190,7 @@ $horizontal_breakpoint: 724px;
 
     @media print {
       top: -1.5rem;
-      box-shadow: 0 4px 7px 1px rgba(black, 0.2),
-        0 16px 10px -12px rgba(black, 0.4);
+      box-shadow: none;
     }
 
     svg {

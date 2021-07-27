@@ -24,10 +24,11 @@
   },
   "scripts": {
     "start": "REACT_APP_GITHUB_SECRET=\"$(< src/github.secret.txt)\" react-scripts start",
-    "build": "react-scripts build",
-    "build:local": "REACT_APP_GITHUB_SECRET=\"$(< src/github.secret.txt)\" react-scripts build",
+    "build": "react-scripts build && npm run pdf",
+    "build:local": "REACT_APP_GITHUB_SECRET=\"$(< src/github.secret.txt)\" react-scripts build && npm run pdf",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pdf": "node scripts/pdf.js"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +48,8 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "puppeteer": "^10.1.0",
+    "serve-handler": "^6.1.3"
+  }
 }
