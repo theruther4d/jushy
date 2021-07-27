@@ -4,7 +4,6 @@
 
 ## General
 
-- downloadable pdf link
 - clean up repetitive styling for sections
 
 ## Contributions

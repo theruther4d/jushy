@@ -15,8 +15,7 @@ export function History() {
   const getInTouch = (event: MouseEvent) => {
     try {
       const section = document.getElementById(contactId);
-      window.scroll({
-        top: section!.getBoundingClientRect().top,
+      section?.scrollIntoView({
         behavior: "smooth",
       });
       event.preventDefault();
