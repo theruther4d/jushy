@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { address } from "../footer/Footer";
 import "./hero.scss";
 import waving from "./waving.png";
 
@@ -20,6 +21,9 @@ export function Hero() {
           <h1>Josh Rutherford</h1>
           <h2>Software Developer</h2>
         </div>
+        <a className="address noscreen" href={`mailto:${address}`}>
+          {address}
+        </a>
       </header>
       <p className="content">
         I’m a curiosity-driven developer with over 8 years of experience. I've

@@ -13,7 +13,7 @@ import highFive from "./high-five.png";
 
 import "./footer.scss";
 
-const address = "contact@joshrutherford.me";
+export const address = "contact@joshrutherford.me";
 const RESET_MS = 4000;
 
 export function Footer() {

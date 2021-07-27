@@ -8,6 +8,13 @@ $horizontal_breakpoint: 724px;
   gap: 2rem;
   grid-template-columns: (minmax(auto, 30rem));
   max-width: 55rem;
+  position: relative;
+
+  .address {
+    position: absolute;
+    top: 0.25rem;
+    right: 0;
+  }
 
   h1 {
     font-size: 3.5rem;
