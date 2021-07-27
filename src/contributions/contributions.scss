@@ -14,16 +14,13 @@ $box_outline: 2px;
   padding-right: 0;
   max-width: none;
 
-  h3 {
-    max-width: $max_width;
-
-    @media all and (min-width: $horizontal_breakpoint) {
-      // transform: translateX(8%);
-    }
-
-    @media all and (min-width: $max_width) {
-      transform: translateX(6.5rem);
-    }
+  h3,
+  .controls {
+    width: 100%;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 1rem;
   }
 
   .content {
@@ -32,6 +29,7 @@ $box_outline: 2px;
     padding-top: 0.75rem;
     // Prevent outline from being cut off
     padding-bottom: $box_outline;
+    order: 1;
 
     @media all and (min-width: $horizontal_breakpoint) {
       display: grid;
@@ -40,6 +38,7 @@ $box_outline: 2px;
         "yAxis body footer";
       max-width: 100%;
       overflow-x: scroll;
+      order: 0;
     }
   }
 
@@ -174,7 +173,7 @@ $box_outline: 2px;
     position: relative;
 
     &[data-level="NONE"] {
-      background: rgba($primary, 0.05);
+      background: rgba($primary, 0.09);
     }
 
     &[data-level="FIRST_QUARTILE"] {
@@ -269,6 +268,78 @@ $box_outline: 2px;
   }
 
   .controls {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    > * {
+      margin-top: 1rem;
+    }
+
+    .legend {
+      width: 120px;
+      height: 1rem;
+      background-image: linear-gradient(
+        to right,
+        rgba($primary, 0.05),
+        rgba($primary, 1)
+      );
+      border-radius: 1rem;
+      margin-bottom: 1.5rem;
+      max-width: 100%;
+      position: relative;
+      border: 1px solid $primary;
+    }
+
+    .scroll {
+      display: none;
+      order: 1;
+
+      button:first-of-type {
+        margin-left: -1rem;
+      }
+
+      @media all and (min-width: $horizontal_breakpoint) {
+        display: block;
+      }
+    }
+
+    @media all and (min-width: 740px) {
+      margin-top: -1rem;
+      justify-content: space-between;
+
+      .legend {
+        width: 200px;
+        margin-bottom: 0;
+      }
+
+      .scroll {
+        order: 2;
+      }
+    }
+
+    figcaption {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: translateY(1.25rem);
+      font-size: 0.75rem;
+    }
+
+    .meta {
+      font-weight: 300;
+      order: 2;
+      font-size: 0.875rem;
+    }
+
+    .scroll {
+      flex-shrink: 0;
+    }
   }
 
   .scroll-button {
@@ -290,5 +361,10 @@ $box_outline: 2px;
       width: 2rem;
       height: 2rem;
     }
+  }
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
   }
 }

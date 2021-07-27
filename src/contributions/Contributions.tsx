@@ -47,15 +47,20 @@ export function Contributions() {
         .totalContributions
     );
   }, 0);
+  const firstPage = data?.pages?.[0];
+  const lastPage = data?.pages?.[data?.pages?.length - 1] ?? firstPage;
+  const start =
+    lastPage && parseDate(lastPage?.viewer.contributionsCollection.startedAt);
+  const stop =
+    firstPage && parseDate(firstPage?.viewer.contributionsCollection.endedAt);
 
   return (
     <section className="contributions noprint">
-      <h3 className="breakable">Code Contributions ({totalContributions})</h3>
+      <h3 className="breakable">Code Contributions</h3>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <>
-          <Controls chart={chart} viewport={viewport} />
+        <div className="wrap">
           <div className="content" ref={viewport}>
             <header>
               <span className="label calendar-day-1">
@@ -177,13 +182,26 @@ export function Contributions() {
               </footer>
             )}
           </div>
-        </>
+          <Controls
+            chart={chart}
+            viewport={viewport}
+            contributionCount={totalContributions || 0}
+            start={start}
+            end={stop}
+          />
+        </div>
       )}
     </section>
   );
 }
 
-function Controls({ chart, viewport }: ControlProps) {
+function Controls({
+  chart,
+  viewport,
+  contributionCount,
+  start,
+  end,
+}: ControlProps) {
   const scroll = useRef(0);
   const { width, height } = useMeasure(chart);
   const viewportDimensions = useMeasure(viewport);
@@ -245,27 +263,46 @@ function Controls({ chart, viewport }: ControlProps) {
 
   return (
     <div className="controls">
-      <button
-        aria-label="scroll newer"
-        disabled={!newerEnabled}
-        className="scroll-button newer"
-        onClick={() => scrollTo(0)}
-      >
-        <ArrowLeft />
-      </button>
-      <button
-        aria-label="scroll older"
-        disabled={!olderEnabled}
-        className="scroll-button older"
-        onClick={() => scrollTo(scrollSize)}
-      >
-        <ArrowRight />
-      </button>
+      <figure className="legend">
+        <figcaption>
+          <span>Less</span> <span>More</span>
+        </figcaption>
+      </figure>
+      <div className="meta">
+        <strong>{commaSeparate(contributionCount)}</strong> total contributions{" "}
+        {start && end && (
+          <>
+            <strong>{format(start, "MMM dd, yyyy")}</strong> -{" "}
+            <strong>{format(end, "MMM dd, yyyy")}</strong>
+          </>
+        )}
+      </div>
+      <div className="scroll">
+        <button
+          aria-label="scroll newer"
+          disabled={!newerEnabled}
+          className="scroll-button newer"
+          onClick={() => scrollTo(0)}
+        >
+          <ArrowLeft />
+        </button>
+        <button
+          aria-label="scroll older"
+          disabled={!olderEnabled}
+          className="scroll-button older"
+          onClick={() => scrollTo(scrollSize)}
+        >
+          <ArrowRight />
+        </button>
+      </div>
     </div>
   );
 }
 
 interface ControlProps {
+  contributionCount: number;
+  start?: Date;
+  end?: Date;
   chart: RefObject<HTMLElement>;
   viewport: RefObject<HTMLElement>;
 }
@@ -439,6 +476,10 @@ function useMeasure<Node extends Element = HTMLElement>(
   );
 
   return measured;
+}
+
+function commaSeparate(input: number) {
+  return String(input).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 interface ContributionDay {
