@@ -100,7 +100,7 @@ export const jobs = [
     Logo: Sourcebits,
     notes: [
       "Built app marketing websites",
-      "After 1 year hired and trained junior developers offshore",
+      "After 1 year responsible for hiring and training junior developers",
     ],
   },
   {
@@ -122,9 +122,9 @@ export const jobs = [
     end: "May 31 2017",
     Logo: RiskMatch,
     notes: [
-      "Prototyped new UI features and wrote production CSS",
+      "Prototyped new UI features and wrote production styles",
       "Converted from legacy PHP setup to React + Webpack + Typescript",
-      "Unified Prototyping and frontend development processes to save speed up delivery",
+      "Unified Prototyping and frontend development workflows to save speed up delivery",
     ],
   },
   {
