@@ -118,6 +118,27 @@ $horizontal_breakpoint: 724px;
     list-style-type: none;
     padding: 0;
     page-break-inside: avoid;
+    position: relative;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0.5rem;
+      left: calc(-#{$logo_padding} - #{$logo_area});
+      right: 0;
+      height: 2px;
+      background: rgba($black, 0.25);
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+
+      &:after {
+        display: none;
+      }
+    }
   }
 
   dl,
@@ -150,34 +171,15 @@ $horizontal_breakpoint: 724px;
   }
 
   dd {
-    margin-bottom: 1rem;
     padding-bottom: 1rem;
-    position: relative;
-
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: calc(-#{$logo_padding} - #{$logo_area});
-      right: 0;
-      height: 2px;
-      background: rgba($black, 0.25);
-    }
-
-    &:last-of-type {
-      margin-bottom: 0;
-
-      &:after {
-        display: none;
-      }
-    }
   }
 
   figure {
     margin: 0;
     position: absolute;
     left: calc(-#{$logo_area} - #{$logo_padding});
-    top: -1.25rem;
+    // top: -1.25rem;
+    top: -0.25rem;
     width: $logo_area;
     height: $logo_area;
     background: white;
@@ -189,7 +191,7 @@ $horizontal_breakpoint: 724px;
       0 16px 10px -12px rgba($black, 0.4);
 
     @media print {
-      top: -1.5rem;
+      top: -0.75rem;
       box-shadow: none;
     }
 
@@ -223,7 +225,7 @@ $horizontal_breakpoint: 724px;
 
     @media print {
       position: absolute;
-      top: 0;
+      top: 0.25rem;
       right: 0;
     }
   }
