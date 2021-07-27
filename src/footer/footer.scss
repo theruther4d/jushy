@@ -98,6 +98,10 @@ $img_size: 173px;
       margin-bottom: 2rem;
       text-shadow: 0 0 4px black;
     }
+
+    @media print {
+      max-width: none;
+    }
   }
 
   .meta {
@@ -110,6 +114,10 @@ $img_size: 173px;
     padding: 2rem $gutter 0;
     border-top: 1px solid rgba(white, 0.5);
     overflow: hidden;
+
+    @media print {
+      max-width: none;
+    }
   }
 
   .copyright,
@@ -129,6 +137,22 @@ $img_size: 173px;
       + a {
         margin-left: 1rem;
       }
+
+      @media print {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        &:after {
+          content: attr(href);
+        }
+
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: 0.5rem;
+        }
+      }
     }
   }
 
@@ -143,6 +167,10 @@ $img_size: 173px;
     img {
       vertical-align: middle;
       margin-right: 0.5rem;
+    }
+
+    @media print {
+      color: black;
     }
   }
 
@@ -295,6 +323,10 @@ $img_size: 173px;
 
   .fill-target {
     fill: white;
+
+    @media print {
+      fill: black;
+    }
   }
 
   a:hover {

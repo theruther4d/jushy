@@ -8,16 +8,32 @@ $horizontal_breakpoint: 724px;
   gap: 2rem;
   grid-template-columns: (minmax(auto, 30rem));
 
+  @media print {
+    grid-template-columns: none;
+    gap: 0.5rem;
+  }
+
   h1 {
     font-size: 3.5rem;
     line-height: 3rem;
     margin: 0;
     color: $primary;
+
+    @media print {
+      font-size: 1.75rem;
+      color: black;
+    }
   }
 
   h2 {
     font-size: 1.25rem;
     margin: 0.25rem 0 0;
+
+    @media print {
+      font-size: 1rem;
+      margin: 0;
+      color: rgba(black, 0.5);
+    }
   }
 
   p {
@@ -53,6 +69,16 @@ $horizontal_breakpoint: 724px;
 
     &:not(.visible) {
       @extend .offscreen;
+    }
+
+    @media print {
+      width: unset !important;
+      height: unset !important;
+      overflow: unset !important;
+      position: unset !important;
+      top: unset !important;
+      left: unset !important;
+      grid-column: unset;
     }
   }
 

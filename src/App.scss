@@ -22,10 +22,20 @@ html {
   fill: white;
   font-size: 16px;
   overflow-x: hidden;
+
+  @media print {
+    background: white;
+    color: black;
+    fill: black;
+  }
 }
 
 body {
   padding: 2rem 0 0;
+
+  @media print {
+    padding: 0;
+  }
 }
 
 h1,
@@ -41,6 +51,10 @@ h6 {
   em {
     color: $primary;
     font-style: normal;
+
+    @media print {
+      color: black;
+    }
   }
 }
 
@@ -49,6 +63,11 @@ h3 {
   line-height: 2.625rem;
   font-weight: 800;
   margin: 0.5rem auto;
+
+  @media print {
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+  }
 }
 
 p {
@@ -57,6 +76,13 @@ p {
   line-height: 2rem;
   color: rgba(255, 255, 255, 0.7);
   margin: 2rem auto;
+
+  @media print {
+    color: black;
+    margin: 0.25rem auto;
+    font-size: 1rem;
+    line-height: 1.25rem;
+  }
 }
 
 section {
@@ -64,6 +90,10 @@ section {
   margin: 0 auto;
   padding: 0 $gutter;
   overflow: hidden;
+
+  @media print {
+    max-width: none;
+  }
 }
 
 section + section {
@@ -72,11 +102,20 @@ section + section {
   @media all and (min-width: 1000px) {
     margin-top: 4rem;
   }
+
+  @media print {
+    margin-top: 0.5rem;
+  }
 }
 
 a {
   color: $primary;
   text-decoration: underline;
+
+  @media print {
+    color: black;
+    text-decoration: none;
+  }
 }
 
 .breakable {
@@ -111,5 +150,22 @@ button.link {
 
   &:disabled {
     color: desaturate($color: $primary, $amount: 75);
+  }
+
+  @media print {
+    color: black;
+    text-decoration: none;
+  }
+}
+
+.noprint {
+  @media print {
+    display: none !important;
+  }
+}
+
+.noscreen {
+  @media screen {
+    display: none;
   }
 }

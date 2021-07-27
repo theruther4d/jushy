@@ -11,9 +11,17 @@ $horizontal_breakpoint: 724px;
   margin-left: auto;
   margin-right: auto;
 
+  @media print {
+    max-width: none;
+  }
+
   h3,
   p {
     max-width: 30rem;
+
+    @media print {
+      max-width: none;
+    }
   }
 
   @media all and (min-width: $horizontal_breakpoint) {
@@ -79,6 +87,33 @@ $horizontal_breakpoint: 724px;
       position: relative;
       z-index: 1;
     }
+
+    @media print {
+      margin: 0;
+      max-width: none;
+      display: block;
+      color: black;
+
+      &:before {
+        display: none;
+      }
+
+      .card-content {
+        transform: none;
+      }
+
+      h3 {
+        padding: 0;
+        font-size: 1.25rem;
+        line-height: 1.25rem;
+      }
+    }
+  }
+
+  .item {
+    list-style-type: none;
+    padding: 0;
+    page-break-inside: avoid;
   }
 
   dl,
@@ -91,10 +126,18 @@ $horizontal_breakpoint: 724px;
   dt,
   dd {
     padding: 0 $card_padding 0 0;
+
+    @media print {
+      padding: 0;
+    }
   }
 
   dl {
     padding-left: calc(#{$logo_area} + (#{$logo_padding} * 2));
+
+    @media print {
+      padding-left: calc(#{$logo_area} + (#{$logo_padding} * 1));
+    }
   }
 
   dt {
@@ -141,10 +184,18 @@ $horizontal_breakpoint: 724px;
     box-shadow: 0 4px 7px 1px rgba($black, 0.2),
       0 16px 10px -12px rgba($black, 0.4);
 
+    @media print {
+      top: -2rem;
+    }
+
     svg {
       width: $logo_size;
       height: $logo_size;
       fill: $black;
+
+      @media print {
+        fill: black;
+      }
     }
   }
 
@@ -164,5 +215,17 @@ $horizontal_breakpoint: 724px;
   .when {
     font-size: 0.75rem;
     font-weight: 600;
+
+    @media print {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  .notes {
+    padding: 0 0 0 1rem;
+    margin: 0;
+    font-size: 0.875rem;
   }
 }

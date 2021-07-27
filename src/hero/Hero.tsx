@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section className="hero">
       <header>
-        <figure>
+        <figure className="noprint">
           <img
             src={waving}
             alt="Cartoon of me waving"
@@ -27,7 +27,7 @@ export function Hero() {
         last 5 years working primarily with React and Typescript.{" "}
         {showMore ? null : (
           <button
-            className="link"
+            className="link noprint"
             onClick={function toggle() {
               setShowMore((showing) => !showing);
             }}

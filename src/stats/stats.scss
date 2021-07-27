@@ -11,6 +11,10 @@ $black: darken($primary, 35);
     h3,
     p {
       max-width: 30rem;
+
+      @media print {
+        max-width: none;
+      }
     }
   }
 

@@ -49,7 +49,7 @@ export function Contributions() {
   }, 0);
 
   return (
-    <section className="contributions">
+    <section className="contributions noprint">
       <h3 className="breakable">Code Contributions ({totalContributions})</h3>
       {isLoading ? (
         <p>Loading...</p>

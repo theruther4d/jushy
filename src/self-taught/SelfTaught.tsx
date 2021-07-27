@@ -10,12 +10,12 @@ export function SelfTaught() {
           From 0 to landing my first development job in San Francisco in under a
           year. Working at apple in 2.5 years. Team Lead in 3.
         </p>
-        <p>
+        <p className="noprint">
           I'm a self-starter who hates to be bored. I love learning new things
           and my best days are when I'm busy solving tough problems.
         </p>
       </main>
-      <aside>
+      <aside className="noprint">
         <figure>
           <div aria-hidden>
             <pre>

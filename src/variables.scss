@@ -13,3 +13,14 @@ $card_radius: 2rem;
   top: -2000px;
   left: -2000px;
 }
+
+.onscreen-print {
+  @media print {
+    width: unset;
+    height: unset;
+    overflow: unset;
+    position: unset;
+    top: unset;
+    left: unset;
+  }
+}

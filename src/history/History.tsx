@@ -6,7 +6,7 @@ import { ReactComponent as RiskMatch } from "./logos/riskmatch.svg";
 import { ReactComponent as Vertafore } from "./logos/vertafore.svg";
 
 import "./history.scss";
-import { Fragment, MouseEvent } from "react";
+import { MouseEvent } from "react";
 
 const today = new Date();
 const contactId = "get-in-touch";
@@ -27,7 +27,7 @@ export function History() {
 
   return (
     <section className="history">
-      <header>
+      <header className="noprint">
         <h3>
           I've been lucky to work on some <em>amazing</em> teams.
         </h3>
@@ -43,8 +43,7 @@ export function History() {
         <article className="card">
           <div className="card-content">
             <h3>
-              Employment
-              <br />
+              Employment <br className="noprint" />
               History
             </h3>
             <dl>
@@ -54,7 +53,7 @@ export function History() {
                 const duration = formatDistance(start, end);
 
                 return (
-                  <Fragment key={`${job.name}-${job.title}`}>
+                  <li key={`${job.name}-${job.title}`} className="item">
                     <dt>{job.name}</dt>
                     <dd>
                       <figure>
@@ -75,8 +74,13 @@ export function History() {
                         {" - "}
                         <time>{duration}</time>
                       </span>
+                      <ul className="notes noscreen">
+                        {job.notes.map((note) => (
+                          <li key={note}>{note}</li>
+                        ))}
+                      </ul>
                     </dd>
-                  </Fragment>
+                  </li>
                 );
               })}
             </dl>
@@ -94,6 +98,10 @@ export const jobs = [
     start: "July 1 2013",
     end: "November 30 2015",
     Logo: Sourcebits,
+    notes: [
+      "Built app marketing websites",
+      "After 1 year hired and trained junior developers offshore",
+    ],
   },
   {
     name: "Apple",
@@ -101,6 +109,7 @@ export const jobs = [
     start: "December 1 2015",
     end: "May 31 2016",
     Logo: Apple,
+    notes: ["Built product marketing pages for apple.com"],
   },
   {
     name: "RiskMatch",
@@ -108,6 +117,11 @@ export const jobs = [
     start: "June 1 2016",
     end: "May 31 2017",
     Logo: RiskMatch,
+    notes: [
+      "Prototyped new UI features and wrote production CSS",
+      "Converted from legacy PHP setup to React + Webpack + Typescript",
+      "Unified Prototyping and frontend development processes to save speed up delivery",
+    ],
   },
   {
     name: "RiskMatch",
@@ -115,12 +129,22 @@ export const jobs = [
     start: "Jun 1 2017",
     end: "December 31 2020",
     Logo: RiskMatch,
+    notes: [
+      "Promoted to head of UI development in a year",
+      "Hired, trained, and managed team of 3-4 junior developers",
+      "Oversaw development of InsureTech web app",
+      "Used React, Typescript, Redux, MobX, SCSS, Webpack",
+    ],
   },
   {
     name: "Vertafore",
     title: "Staff Architect",
     start: "January 1 2021",
     Logo: Vertafore,
+    notes: [
+      "Promoted to core architechture group at parent company",
+      "Oversee UI development for entire companies portfolio of products",
+    ],
   },
 ];
 const jobsDescending = [...jobs].reverse();

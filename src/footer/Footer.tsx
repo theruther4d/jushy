@@ -62,7 +62,7 @@ export function Footer() {
 
   return (
     <footer className="footer">
-      <div className="contact" id="get-in-touch">
+      <div className="contact noprint" id="get-in-touch">
         <figure className={failed ? "failed" : copied ? "copied" : ""}>
           <img
             className="uncopied-img"
@@ -132,15 +132,24 @@ export function Footer() {
       </div>
       <div className="meta">
         <div className="social">
-          <a href="https://github.com/theruther4d">
+          <a
+            href="https://github.com/theruther4d"
+            data-something="https://github.com/theruther4d"
+          >
             <span className="offscreen">Github</span>
             <Github width={36} height={36} />
           </a>
-          <a href="https://codepen.io/the_ruther4d">
+          <a
+            href="https://codepen.io/the_ruther4d"
+            data-something="https://codepen.io/the_ruther4d"
+          >
             <span className="offscreen">Codepen</span>
             <Codepen width={36} height={36} />
           </a>
-          <a href="https://www.linkedin.com/in/josh-rutherford-b10b2190">
+          <a
+            href="https://www.linkedin.com/in/josh-rutherford-b10b2190"
+            data-something="https://www.linkedin.com/in/josh-rutherford-b10b2190"
+          >
             <span className="offscreen">Linkedin</span>
             <Linkedin width={36} height={36} />
           </a>
