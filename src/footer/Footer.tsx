@@ -62,7 +62,7 @@ export function Footer() {
 
   return (
     <footer className="footer">
-      <div className="contact" id="get-in-touch">
+      <div className="contact noprint" id="get-in-touch">
         <figure
           className={cn("noprint", {
             failed,

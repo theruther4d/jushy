@@ -307,12 +307,6 @@ $img_size: 173px;
     .email-wrap {
       display: flex;
       flex-direction: column;
-
-      @media print {
-        position: fixed;
-        top: 0;
-        right: 0;
-      }
     }
 
     .email,
