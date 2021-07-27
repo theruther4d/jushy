@@ -5,7 +5,12 @@ export function SelfTaught() {
   return (
     <section className="self-taught">
       <main>
-        <h3>Proudly self-taught</h3>
+        <h3>
+          <span className="noprint">Proudly self-taught</span>
+          <span className="noscreen" aria-hidden>
+            Key Stats
+          </span>
+        </h3>
         <p>
           From 0 to landing my first development job in San Francisco in under a
           year. Working at apple in 2.5 years. Team Lead in 3.

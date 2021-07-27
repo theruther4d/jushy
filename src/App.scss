@@ -80,8 +80,8 @@ p {
   @media print {
     color: black;
     margin: 0.25rem auto;
-    font-size: 1rem;
-    line-height: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1rem;
   }
 }
 
@@ -93,6 +93,9 @@ section {
 
   @media print {
     max-width: none;
+    page-break-inside: avoid;
+    margin: 0;
+    padding: 0;
   }
 }
 
@@ -168,4 +171,8 @@ button.link {
   @media screen {
     display: none;
   }
+}
+
+@page {
+  margin: 1cm;
 }

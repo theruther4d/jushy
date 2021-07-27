@@ -132,7 +132,6 @@ export const jobs = [
     notes: [
       "Promoted to head of UI development in a year",
       "Hired, trained, and managed team of 3-4 junior developers",
-      "Oversaw development of InsureTech web app",
       "Used React, Typescript, Redux, MobX, SCSS, Webpack",
     ],
   },

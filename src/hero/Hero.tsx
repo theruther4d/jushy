@@ -60,7 +60,7 @@ export function Hero() {
           interested in areas of nature, biology, physics, art, politics, and
           literature.{" "}
           <button
-            className="link"
+            className="link noprint"
             tabIndex={showMore ? undefined : -1}
             onClick={function toggle() {
               setShowMore((showing) => !showing);

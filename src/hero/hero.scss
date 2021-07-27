@@ -8,11 +8,6 @@ $horizontal_breakpoint: 724px;
   gap: 2rem;
   grid-template-columns: (minmax(auto, 30rem));
 
-  @media print {
-    grid-template-columns: none;
-    gap: 0.5rem;
-  }
-
   h1 {
     font-size: 3.5rem;
     line-height: 3rem;
@@ -21,6 +16,7 @@ $horizontal_breakpoint: 724px;
 
     @media print {
       font-size: 1.75rem;
+      line-height: 1.5rem;
       color: black;
     }
   }
@@ -88,5 +84,10 @@ $horizontal_breakpoint: 724px;
     .content {
       grid-column: unset;
     }
+  }
+
+  @media print {
+    grid-template-columns: none;
+    gap: 0.5rem;
   }
 }

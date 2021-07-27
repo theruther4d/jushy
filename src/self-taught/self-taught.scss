@@ -36,6 +36,18 @@ $dark: darken($light, 11);
     }
   }
 
+  @media print {
+    justify-content: flex-start;
+
+    main {
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
   figure {
     padding: 2rem 1rem;
     margin: 0;

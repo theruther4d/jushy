@@ -6,7 +6,7 @@ import "./stats.scss";
 export function Stats() {
   return (
     <section className="stats">
-      <main>
+      <main className="noprint">
         <h3>I've been around the block a few times</h3>
         <p>
           Which gives me a wealth of experience to draw on, but I love learning
@@ -15,29 +15,36 @@ export function Stats() {
       </main>
       <dl className="card">
         <div className="card-content">
-          <dd>
-            {differenceInYears(today, startDate)}
-            <sup>+</sup>
-          </dd>
-          <dt>Years Professional Experience</dt>
-          <dd>
-            {differenceInYears(today, remoteStartDate)}
-            <sup>+</sup>
-          </dd>
-          <dt>Years Leading Teams</dt>
-          <dd>
-            {differenceInYears(today, teamLeadStartDate)}
-            <sup>+</sup>
-          </dd>
-          <dt>Years Working Remotely</dt>
-          <dd>
-            {/* @TODO: */}
-            65.26
-            <sup>+</sup>
-          </dd>
-          <dt>Thousands of lines of code written</dt>
+          <li>
+            <dd>
+              {differenceInYears(today, startDate)}
+              <sup>+</sup>
+            </dd>
+            <dt>Years Professional Experience</dt>
+          </li>
+          <li>
+            <dd>
+              {differenceInYears(today, remoteStartDate)}
+              <sup>+</sup>
+            </dd>
+            <dt>Years Leading Teams</dt>
+          </li>
+          <li>
+            <dd>
+              {differenceInYears(today, teamLeadStartDate)}
+              <sup>+</sup>
+            </dd>
+            <dt>Years Working Remotely</dt>
+          </li>
         </div>
       </dl>
+      <div className="languages noscreen">
+        <h3>Languages and Tools</h3>
+        <p>
+          React, Typescript, NodeJS, HTML, CSS, Javascript, SCSS, Webpack,
+          Rollup, MSW, testing-library
+        </p>
+      </div>
     </section>
   );
 }

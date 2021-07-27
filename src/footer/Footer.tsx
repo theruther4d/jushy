@@ -62,8 +62,13 @@ export function Footer() {
 
   return (
     <footer className="footer">
-      <div className="contact noprint" id="get-in-touch">
-        <figure className={failed ? "failed" : copied ? "copied" : ""}>
+      <div className="contact" id="get-in-touch">
+        <figure
+          className={cn("noprint", {
+            failed,
+            copied,
+          })}
+        >
           <img
             className="uncopied-img"
             src={callme}
@@ -89,11 +94,11 @@ export function Footer() {
             aria-hidden={!failed}
           />
         </figure>
-        <h3>Get in touch</h3>
+        <h3 className="noprint">Get in touch</h3>
         <div className="contact-button">
           <button
             disabled={failed}
-            className="copy"
+            className="copy noprint"
             onClick={onCopy}
             title="Copy email address to clipboard"
           >
@@ -119,7 +124,7 @@ export function Footer() {
             />
             <div className="width-holder">{address}</div>
           </div>
-          <div className="message">
+          <div className="message noprint">
             {failed ? (
               <div className="error-message">
                 Oops! Something went wrong. Try copying it manually 🥲
@@ -154,7 +159,7 @@ export function Footer() {
             <Linkedin width={36} height={36} />
           </a>
         </div>
-        <span className="copyright">
+        <span className="copyright noprint">
           <img
             src={hearts}
             alt="Cartoon of my face surrounded by hearts."
@@ -169,3 +174,17 @@ export function Footer() {
 }
 
 const today = new Date();
+
+function cn(...classNames: Array<string | Record<string, any>>) {
+  return classNames.reduce(function combine(combined: string, current) {
+    if (typeof current === "string") {
+      return `${combined} ${current}`;
+    }
+
+    const valid = Object.keys(current).filter((key) =>
+      current[key] ? key : ""
+    );
+    if (!valid.length) return combined;
+    return `${combined} ${valid.join(" ")}`;
+  }, "");
+}

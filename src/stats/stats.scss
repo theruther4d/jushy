@@ -67,6 +67,19 @@ $black: darken($primary, 35);
     }
   }
 
+  li {
+    list-style: none;
+    padding: 0;
+
+    dt {
+      padding-bottom: 1.5rem;
+    }
+
+    &:last-of-type dt {
+      padding-bottom: 0;
+    }
+  }
+
   dd,
   dt {
     border-left-style: solid;
@@ -86,10 +99,50 @@ $black: darken($primary, 35);
     font-size: 0.75rem;
     font-weight: 600;
     border-left-color: rgba(black, 0.25);
-    padding-bottom: 1.5rem;
+  }
 
-    &:last-of-type {
-      padding-bottom: 0;
+  @media print {
+    display: block;
+    text-align: left;
+
+    main {
+      padding: 0;
+    }
+
+    dl {
+      margin: 0;
+      padding: 0;
+      color: black;
+
+      &:before {
+        display: none;
+      }
+    }
+
+    .card-content {
+      display: flex;
+    }
+
+    dd {
+      font-size: 2rem;
+    }
+
+    dd,
+    dt {
+      border: 0;
+      padding-left: 0;
+    }
+
+    dt {
+      padding-bottom: 0 !important;
+    }
+
+    li + li {
+      margin-left: 2rem;
+    }
+
+    .languages {
+      margin-top: 1.5rem;
     }
   }
 }
