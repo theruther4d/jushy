@@ -130,7 +130,7 @@ export const jobs = [
     end: "December 31 2020",
     Logo: RiskMatch,
     notes: [
-      "Promoted to head of UI development in a year",
+      "Promoted to head of UI development in under a year",
       "Hired, trained, managed, and mentored team of 3-4 junior developers",
       "Used React, Typescript, Redux, MobX, SCSS, Webpack",
     ],

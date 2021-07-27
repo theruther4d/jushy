@@ -41,8 +41,8 @@ export function Stats() {
       <div className="languages noscreen">
         <h3>Languages and Tools</h3>
         <p>
-          React, Typescript, NodeJS, HTML, CSS, Javascript, SCSS, Webpack,
-          Rollup, MSW, testing-library
+          React, Typescript, Node.js, HTML, CSS, Javascript, SCSS, D3.js,
+          Webpack, Rollup, MSW, Testing-library, Cypress, Puppeteer
         </p>
       </div>
     </section>

@@ -57,7 +57,8 @@ export function Hero() {
         <p>
           I've got a strong background in the web fundamentals of HTML, CSS, and
           Javascript while having the wealth of experience of working with React
-          and Typescript since nearly the beginning.{" "}
+          and Typescript since nearly the beginning. Currently working remotely
+          from my home state of Arkansas.
           <button
             className="link noprint"
             tabIndex={showMore ? undefined : -1}
