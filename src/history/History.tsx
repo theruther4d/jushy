@@ -109,7 +109,11 @@ export const jobs = [
     start: "December 1 2015",
     end: "May 31 2016",
     Logo: Apple,
-    notes: ["Built product marketing pages for apple.com"],
+    notes: [
+      "Built product marketing pages for apple.com",
+      "Created internal libraries for code reuse",
+      "Interfaced with design team to bridge gaps in mockups",
+    ],
   },
   {
     name: "RiskMatch",
@@ -132,7 +136,7 @@ export const jobs = [
     notes: [
       "Promoted to head of UI development in under a year",
       "Hired, trained, managed, and mentored team of 3-4 junior developers",
-      "Used React, Typescript, Redux, MobX, SCSS, Webpack",
+      "Lead all UI development for the company",
     ],
   },
   {

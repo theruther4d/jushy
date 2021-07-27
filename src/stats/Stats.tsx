@@ -24,14 +24,14 @@ export function Stats() {
           </li>
           <li>
             <dd>
-              {differenceInYears(today, remoteStartDate)}
+              {differenceInYears(today, teamLeadStartDate)}
               <sup>+</sup>
             </dd>
             <dt>Years Leading Teams</dt>
           </li>
           <li>
             <dd>
-              {differenceInYears(today, teamLeadStartDate)}
+              {differenceInYears(today, remoteStartDate)}
               <sup>+</sup>
             </dd>
             <dt>Years Working Remotely</dt>

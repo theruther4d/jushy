@@ -24,7 +24,7 @@ export function Hero() {
       <p className="content">
         I’m a curiosity-driven developer with over 8 years of experience. I've
         spent most of that time focused on building web apps and sites, and for
-        the last 5 years I've worked primarily with React and Typescript.{" "}
+        the last 5 years have worked primarily with React and Typescript.{" "}
         {showMore ? null : (
           <button
             className="link noprint"
@@ -56,9 +56,9 @@ export function Hero() {
         </p>
         <p>
           I've got a strong background in the web fundamentals of HTML, CSS, and
-          Javascript while having the wealth of experience of working with React
-          and Typescript since nearly the beginning. Currently working remotely
-          from my home state of Arkansas.
+          Javascript while having the wealth of experience of using React and
+          Typescript since nearly the beginning. Currently working remotely from
+          my home state of Arkansas.
           <button
             className="link noprint"
             tabIndex={showMore ? undefined : -1}
