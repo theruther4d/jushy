@@ -3,13 +3,14 @@ const path = require("path");
 const fs = require("fs/promises");
 const { existsSync, readFileSync } = require("fs");
 const config = require("../package.json");
-const { execSync } = require("child_process");
+const { exec, execSync } = require("child_process");
 const puppeteer = require("puppeteer");
 const http = require("http");
 const handler = require("serve-handler");
 const chalk = require("chalk");
 const pixelmatch = require("pixelmatch");
 const { PNG } = require("pngjs");
+const AbortController = require("abort-controller");
 
 const tmpRepo = path.resolve(__dirname, "../tmp");
 const secretFile = path.resolve(__dirname, "../src/github.secret.txt");
@@ -18,10 +19,6 @@ const manifestFile = path.resolve(__dirname, "../screenshot-manifest.json");
 const port = 3000;
 const pageURL = `http://localhost:${port}/`;
 
-/**
- * Ideas
- * - reuse page between?
- */
 const server = http.createServer((req, res) => {
   const public = path.resolve(tmpRepo, "./build");
   return handler(req, res, {
@@ -34,33 +31,47 @@ function log(message, ...others) {
 }
 
 (async () => {
+  const startTime = Date.now();
+  let repo;
+  let existingManifest = {};
+
+  if (existsSync(manifestFile)) {
+    existingManifest = JSON.parse(readFileSync(manifestFile));
+  }
+
   if (existsSync("tmp")) {
-    log("Cleaning up tmp dir");
-    await rm("tmp");
+    log("Opening existing repo...");
+    repo = await Git.Repository.open(tmpRepo);
   } else {
     log("Create tmp dir");
     await fs.mkdir("tmp");
+    log("Cloning repo...");
+    repo = await Git.Clone(config.repository.url, tmpRepo);
   }
-
-  log("Cloning repo...");
-  const repo = await Git.Clone(config.repository.url, tmpRepo);
 
   log("Setting up github secrets...");
   const secret = await fs.readFile(secretFile);
-  await fs.copyFile(secretFile, path.resolve(tmpRepo, "src/github.secret.txt"));
-  await fs.writeFile(
-    path.resolve(tmpRepo, "src/github.secret.json"),
-    `"${secret}"`
-  );
+  const secretTxt = path.resolve(tmpRepo, "src/github.secret.txt");
+  const secretJson = path.resolve(tmpRepo, "src/github.secret.json");
+
+  if (!existsSync(secretTxt)) {
+    await fs.copyFile(secretFile, secretTxt);
+  }
+
+  if (!existsSync(secretJson)) {
+    await fs.writeFile(secretJson, `"${secret}"`);
+  }
 
   log("Getting commits...");
   const mostRecentCommit = await repo.getMasterCommit();
   const history = mostRecentCommit.history();
   const commits = [];
+  const commitsWithoutVisualChanges = [];
   let commitShas = [];
   let commit;
   let size;
   let screenshot;
+  let index = 0;
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
@@ -68,10 +79,34 @@ function log(message, ...others) {
   log(`Starting server on port :${port}...`);
   server.listen(port);
 
+  let screenshots = [];
+  if (!existsSync(screenshotDir)) {
+    log("Creating screenshot dir...");
+    await fs.mkdir(screenshotDir);
+  } else {
+    screenshots = await fs.readdir(screenshotDir);
+  }
+
   async function snapshotNextCommit() {
     let prevCommit = commit;
     commit = commits.pop();
     const sha = commit.sha();
+    const alreadyScreenshotted = screenshots.some((screenshot) => {
+      return new RegExp(`\\d\\s-\\s${sha}\.png`).test(screenshot);
+    });
+
+    if (alreadyScreenshotted) {
+      log(`Commit ${sha}.png has already been snapshotted. Skipping...`);
+      index++;
+      return;
+    }
+
+    if (existingManifest?.commitsWithoutVisualChanges?.includes(sha)) {
+      log(
+        `Commit ${sha} has previously been determined not to contain visual changes. Skipping...`
+      );
+      return;
+    }
 
     log("Checking out commit: ", commit.message());
     await Git.Checkout.tree(repo, commit, {
@@ -99,16 +134,24 @@ function log(message, ...others) {
       log(`No dependency changes, skipping`);
     }
 
-    const changedSrcFiles = changedFiles.some((it) => it.startsWith("src/"));
-    if (!prevCommit || changedSrcFiles) {
-      try {
-        log("Building...");
-        execSync("yarn build", { cwd: tmpRepo, stdio: "ignore" });
-      } catch (e) {
-        log(`❌ Couldn't build commit ${commit.message()}: `, e);
-      }
-    } else {
-      log("No changed files in src/, skipping build");
+    const initialCommit = !index;
+    const sourceFilesChanged = changedFiles.some((file) =>
+      file.startsWith("src")
+    );
+
+    if (!sourceFilesChanged && !initialCommit) {
+      log(`No source files changed, skipping commit ${sha}`);
+      return;
+    }
+
+    log("Building...");
+    try {
+      execSync("yarn build", {
+        cwd: tmpRepo,
+        stdio: "ignore",
+      });
+    } catch (e) {
+      log(`Error building: `, e);
     }
 
     try {
@@ -117,15 +160,12 @@ function log(message, ...others) {
         waitUntil: "networkidle2",
       });
 
-      if (!existsSync(screenshotDir)) {
-        log("Creating screenshot dir...");
-        await fs.mkdir(screenshotDir);
-      }
-
-      const screenshotFile = path.resolve(screenshotDir, `${sha}.png`);
+      const screenshotFile = path.resolve(
+        screenshotDir,
+        `${index + 1} - ${sha}.png`
+      );
       log(`📸 Taking screenshot ${sha}.png`);
       const buffer = await page.screenshot({
-        path: screenshotFile,
         fullPage: true,
       });
 
@@ -150,41 +190,45 @@ function log(message, ...others) {
           log(
             `error diffing screenshots: `,
             e,
-            JSON.stringify({
-              size,
-              prevSize: prevSize,
-            })
+            JSON.stringify(
+              {
+                size,
+                prevSize: prevSize,
+              },
+              undefined,
+              2
+            )
           );
         }
       }
 
       if (differenceInPixels > CHANGE_THRESHOLD) {
         await fs.writeFile(screenshotFile, PNG.sync.write(screenshot), "utf-8");
+        index++;
       } else {
         log(
           `Not much changed (${differenceInPixels}px) skipping screenshot...`
         );
+        commitsWithoutVisualChanges.push(sha);
       }
-
-      commitShas.push(sha);
     } catch (e) {
       log(`❌ Couldn't snapshot commit ${commit.message()}: `, e);
     }
   }
 
-  history.on("commit", function collectCommitsThenSnapshot(commit) {
+  history.on("commit", function collect(commit) {
     commits.push(commit);
+    commitShas.push(commit.sha());
   });
 
-  await history.start();
-
-  history.on("end", async function onHistoryCollected() {
+  history.on("end", async function process() {
     while (commits.length) {
       await snapshotNextCommit();
     }
 
     log("Closing browser...");
     await browser.close();
+
     log("Closing server...");
     server.close();
 
@@ -194,11 +238,20 @@ function log(message, ...others) {
     log("Writing manifest");
     await fs.writeFile(
       manifestFile,
-      JSON.stringify({
-        orderedCommitShas: commitShas,
-      })
+      JSON.stringify(
+        {
+          commitsWithoutVisualChanges,
+          orderedCommitShas: commitShas,
+        },
+        undefined,
+        2
+      )
     );
+    const duration = Date.now() - startTime;
+    log(`Snapshotting took ${duration / 1000}s`);
   });
+
+  await history.start();
 })();
 
 async function rm(fileOrDirectory) {
@@ -210,7 +263,7 @@ async function rm(fileOrDirectory) {
     return await fs.rmdir(fileOrDirectory);
   }
 
-  return await fs.rm(fileOrDirectory);
+  return await fs.unlink(fileOrDirectory);
 }
 
 const CHANGE_THRESHOLD = 50;
