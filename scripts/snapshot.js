@@ -10,7 +10,6 @@ const handler = require("serve-handler");
 const chalk = require("chalk");
 const pixelmatch = require("pixelmatch");
 const { PNG } = require("pngjs");
-const AbortController = require("abort-controller");
 
 const tmpRepo = path.resolve(__dirname, "../tmp");
 const secretFile = path.resolve(__dirname, "../src/github.secret.txt");
