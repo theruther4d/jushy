@@ -61,7 +61,12 @@ function log(message, ...others) {
   let commit;
   let size;
   let screenshot;
-  let screenshotFile;
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+  const page = await browser.newPage();
+  log(`Starting server on port :${port}...`);
+  server.listen(port);
 
   async function snapshotNextCommit() {
     let prevCommit = commit;
@@ -107,15 +112,6 @@ function log(message, ...others) {
     }
 
     try {
-      log(`Starting server on port :${port}...`);
-      server.listen(port);
-
-      log("Starting puppeteer");
-      const browser = await puppeteer.launch({
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      });
-      const page = await browser.newPage();
-
       log(`Opening page ${pageURL}`);
       await page.goto(pageURL, {
         waitUntil: "networkidle2",
@@ -126,15 +122,13 @@ function log(message, ...others) {
         await fs.mkdir(screenshotDir);
       }
 
-      const prevScreenshotFile = screenshotFile;
-      screenshotFile = path.resolve(screenshotDir, `${sha}.png`);
+      const screenshotFile = path.resolve(screenshotDir, `${sha}.png`);
       log(`📸 Taking screenshot ${sha}.png`);
       const buffer = await page.screenshot({
         path: screenshotFile,
         fullPage: true,
       });
 
-      // Remove screenshots with no changes from previous image:
       const prevScreenshot = screenshot;
       const prevSize = size;
       screenshot = PNG.sync.read(buffer);
@@ -164,7 +158,7 @@ function log(message, ...others) {
         }
       }
 
-      if (differenceInPixels > 50) {
+      if (differenceInPixels > CHANGE_THRESHOLD) {
         await fs.writeFile(screenshotFile, PNG.sync.write(screenshot), "utf-8");
       } else {
         log(
@@ -172,9 +166,6 @@ function log(message, ...others) {
         );
       }
 
-      log("Closing browser...");
-      await browser.close();
-      server.close();
       commitShas.push(sha);
     } catch (e) {
       log(`❌ Couldn't snapshot commit ${commit.message()}: `, e);
@@ -192,7 +183,12 @@ function log(message, ...others) {
       await snapshotNextCommit();
     }
 
-    log("Cleaning up...");
+    log("Closing browser...");
+    await browser.close();
+    log("Closing server...");
+    server.close();
+
+    log("Cleaning up tmp dir...");
     await rm("tmp");
 
     log("Writing manifest");
@@ -216,3 +212,5 @@ async function rm(fileOrDirectory) {
 
   return await fs.rm(fileOrDirectory);
 }
+
+const CHANGE_THRESHOLD = 50;
