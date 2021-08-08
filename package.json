@@ -56,6 +56,8 @@
   "devDependencies": {
     "chalk": "^4.1.2",
     "nodegit": "^0.27.0",
+    "pixelmatch": "^5.2.1",
+    "pngjs": "^6.0.0",
     "puppeteer": "^10.1.0",
     "serve-handler": "^6.1.3"
   }

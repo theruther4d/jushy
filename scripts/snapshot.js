@@ -1,13 +1,15 @@
 const Git = require("nodegit");
 const path = require("path");
 const fs = require("fs/promises");
-const { existsSync } = require("fs");
+const { existsSync, readFileSync } = require("fs");
 const config = require("../package.json");
 const { execSync } = require("child_process");
 const puppeteer = require("puppeteer");
 const http = require("http");
 const handler = require("serve-handler");
 const chalk = require("chalk");
+const pixelmatch = require("pixelmatch");
+const { PNG } = require("pngjs");
 
 const tmpRepo = path.resolve(__dirname, "../tmp");
 const secretFile = path.resolve(__dirname, "../src/github.secret.txt");
@@ -18,14 +20,12 @@ const pageURL = `http://localhost:${port}/`;
 
 /**
  * Ideas
- * - use diff to determine if we should install deps, build, etc. more strtegically
- * - manifest to give commit order so screenshots can be named by sha -> would allow skipping screenshots that are already present
- * - diff between commits to determine changed areas, use that for pan / zoom effects, or to skip frames with no changes?
  * - reuse page between?
  */
 const server = http.createServer((req, res) => {
+  const public = path.resolve(tmpRepo, "./build");
   return handler(req, res, {
-    public: path.resolve(tmpRepo, "/build"),
+    public,
   });
 });
 
@@ -34,7 +34,10 @@ function log(message, ...others) {
 }
 
 (async () => {
-  if (!existsSync("tmp")) {
+  if (existsSync("tmp")) {
+    log("Cleaning up tmp dir");
+    await rm("tmp");
+  } else {
     log("Create tmp dir");
     await fs.mkdir("tmp");
   }
@@ -55,10 +58,14 @@ function log(message, ...others) {
   const history = mostRecentCommit.history();
   const commits = [];
   let commitShas = [];
-  let nextSnapshotTimeout;
+  let commit;
+  let size;
+  let screenshot;
+  let screenshotFile;
 
   async function snapshotNextCommit() {
-    const commit = commits.pop();
+    let prevCommit = commit;
+    commit = commits.pop();
     const sha = commit.sha();
 
     log("Checking out commit: ", commit.message());
@@ -66,12 +73,41 @@ function log(message, ...others) {
       checkoutStrategy: Git.Checkout.STRATEGY.FORCE,
     });
 
+    let changedFiles = [];
+
+    if (prevCommit) {
+      const to = await commit.getTree();
+      const from = await prevCommit.getTree();
+      const diff = await to.diff(from);
+      const patches = await diff.patches();
+      changedFiles = patches.map((it) => it.newFile().path());
+    }
+
+    if (!prevCommit || changedFiles.includes("package.json")) {
+      try {
+        log("Installing deps...");
+        execSync("yarn", { cwd: tmpRepo, stdio: "ignore" });
+      } catch (e) {
+        log(`❌ Couldn't install deps for commit ${commit.message()}: `, e);
+      }
+    } else {
+      log(`No dependency changes, skipping`);
+    }
+
+    const changedSrcFiles = changedFiles.some((it) => it.startsWith("src/"));
+    if (!prevCommit || changedSrcFiles) {
+      try {
+        log("Building...");
+        execSync("yarn build", { cwd: tmpRepo, stdio: "ignore" });
+      } catch (e) {
+        log(`❌ Couldn't build commit ${commit.message()}: `, e);
+      }
+    } else {
+      log("No changed files in src/, skipping build");
+    }
+
     try {
-      log("Installing deps...");
-      execSync("yarn", { cwd: tmpRepo, stdio: "ignore" });
-      log("Building...");
-      execSync("yarn build", { cwd: tmpRepo, stdio: "ignore" });
-      log("Starting server...");
+      log(`Starting server on port :${port}...`);
       server.listen(port);
 
       log("Starting puppeteer");
@@ -80,7 +116,7 @@ function log(message, ...others) {
       });
       const page = await browser.newPage();
 
-      log("Opening page");
+      log(`Opening page ${pageURL}`);
       await page.goto(pageURL, {
         waitUntil: "networkidle2",
       });
@@ -90,44 +126,83 @@ function log(message, ...others) {
         await fs.mkdir(screenshotDir);
       }
 
-      log("📸 Taking screenshot...");
-      await page.screenshot({
-        path: path.resolve(screenshotDir, `${sha}.png`),
+      const prevScreenshotFile = screenshotFile;
+      screenshotFile = path.resolve(screenshotDir, `${sha}.png`);
+      log(`📸 Taking screenshot ${sha}.png`);
+      const buffer = await page.screenshot({
+        path: screenshotFile,
         fullPage: true,
       });
+
+      // Remove screenshots with no changes from previous image:
+      const prevScreenshot = screenshot;
+      const prevSize = size;
+      screenshot = PNG.sync.read(buffer);
+      let differenceInPixels = Infinity;
+
+      if (
+        screenshot.width === prevScreenshot?.width &&
+        screenshot.height === prevScreenshot?.height
+      ) {
+        try {
+          differenceInPixels = pixelmatch(
+            screenshot.data,
+            prevScreenshot.data,
+            null,
+            screenshot.width,
+            screenshot.height
+          );
+        } catch (e) {
+          log(
+            `error diffing screenshots: `,
+            e,
+            JSON.stringify({
+              size,
+              prevSize: prevSize,
+            })
+          );
+        }
+      }
+
+      if (differenceInPixels > 50) {
+        await fs.writeFile(screenshotFile, PNG.sync.write(screenshot), "utf-8");
+      } else {
+        log(
+          `Not much changed (${differenceInPixels}px) skipping screenshot...`
+        );
+      }
 
       log("Closing browser...");
       await browser.close();
       server.close();
       commitShas.push(sha);
-
-      if (!commits.length) {
-        log("Cleaning up...");
-        await rm("tmp");
-
-        log("Writing manifest");
-        await fs.writeFile(
-          manifestFile,
-          JSON.stringify({
-            orderedCommitShas: commitShas,
-          })
-        );
-      }
     } catch (e) {
-      log(`❌ Couldn't build commit ${commit.message()}: `, e);
+      log(`❌ Couldn't snapshot commit ${commit.message()}: `, e);
     }
-
-    snapshotNextCommit();
   }
 
   history.on("commit", function collectCommitsThenSnapshot(commit) {
-    clearTimeout(nextSnapshotTimeout);
     commits.push(commit);
-
-    nextSnapshotTimeout = setTimeout(snapshotNextCommit, 100);
   });
 
   await history.start();
+
+  history.on("end", async function onHistoryCollected() {
+    while (commits.length) {
+      await snapshotNextCommit();
+    }
+
+    log("Cleaning up...");
+    await rm("tmp");
+
+    log("Writing manifest");
+    await fs.writeFile(
+      manifestFile,
+      JSON.stringify({
+        orderedCommitShas: commitShas,
+      })
+    );
+  });
 })();
 
 async function rm(fileOrDirectory) {
