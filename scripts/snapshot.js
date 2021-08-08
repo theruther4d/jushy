@@ -32,10 +32,17 @@ function log(message, ...others) {
 (async () => {
   const startTime = Date.now();
   let repo;
-  let existingManifest = {};
+  let commitsWithoutVisualChanges = [];
+  let commitsWithoutSourceChanges = [];
 
   if (existsSync(manifestFile)) {
-    existingManifest = JSON.parse(readFileSync(manifestFile));
+    const existingManifest = JSON.parse(readFileSync(manifestFile));
+    commitsWithoutVisualChanges =
+      existingManifest.commitsWithoutVisualChanges ||
+      commitsWithoutVisualChanges;
+    commitsWithoutSourceChanges =
+      existingManifest.commitsWithoutSourceChanges ||
+      commitsWithoutSourceChanges;
   }
 
   if (existsSync("tmp")) {
@@ -65,7 +72,6 @@ function log(message, ...others) {
   const mostRecentCommit = await repo.getMasterCommit();
   const history = mostRecentCommit.history();
   const commits = [];
-  const commitsWithoutVisualChanges = [];
   let commitShas = [];
   let commit;
   let size;
@@ -100,9 +106,16 @@ function log(message, ...others) {
       return;
     }
 
-    if (existingManifest?.commitsWithoutVisualChanges?.includes(sha)) {
+    if (commitsWithoutVisualChanges.includes(sha)) {
       log(
         `Commit ${sha} has previously been determined not to contain visual changes. Skipping...`
+      );
+      return;
+    }
+
+    if (commitsWithoutSourceChanges.includes(sha)) {
+      log(
+        `Commit ${sha} has previously been determined not to contain source code changes. Skipping...`
       );
       return;
     }
@@ -140,6 +153,7 @@ function log(message, ...others) {
 
     if (!sourceFilesChanged && !initialCommit) {
       log(`No source files changed, skipping commit ${sha}`);
+      commitsWithoutSourceChanges.push(sha);
       return;
     }
 
@@ -239,6 +253,7 @@ function log(message, ...others) {
       manifestFile,
       JSON.stringify(
         {
+          commitsWithoutSourceChanges,
           commitsWithoutVisualChanges,
           orderedCommitShas: commitShas,
         },

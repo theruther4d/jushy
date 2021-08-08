@@ -1,4 +1,15 @@
 {
+  "commitsWithoutSourceChanges": [
+    "65dfc84dd7d965f8a72484ef9a972dcae6ba054b",
+    "01f627e084eafb277602481139168a6602457236",
+    "34d5087be23abb7b683dc42339fb4234fe8e46c7",
+    "d302e217ed3f498db1dc425ad36f914a06cc87ea",
+    "c2fbbaa42fdd15207c40825d13474dc112591a62",
+    "46a94db00eb5a8f94a357e40b96e7d9982200318",
+    "435a7f853fac7f7cee6e1f0ef85287c752430bd5",
+    "03f27f09596e767ec42545624834ceafd7df0418",
+    "3a4f3d4eea8ebacd850065e3faf09295c8fc768b"
+  ],
   "commitsWithoutVisualChanges": [
     "84022cb5fa8f954b7b4ef92c432ca96f30f594c9",
     "f9f2c19b9db4aeaef45992dfbabb0bd5edb12c69",
