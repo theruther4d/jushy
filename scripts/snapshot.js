@@ -34,6 +34,15 @@ function log(message, ...others) {
   let repo;
   let commitsWithoutVisualChanges = [];
   let commitsWithoutSourceChanges = [];
+  const commits = [];
+  let commitShas = [];
+  let commit;
+  let size;
+  let screenshot;
+  let index = 0;
+  let screenshots = [];
+  let maxWidth = 0;
+  let maxHeight = 0;
 
   if (existsSync(manifestFile)) {
     const existingManifest = JSON.parse(readFileSync(manifestFile));
@@ -71,12 +80,6 @@ function log(message, ...others) {
   log("Getting commits...");
   const mostRecentCommit = await repo.getMasterCommit();
   const history = mostRecentCommit.history();
-  const commits = [];
-  let commitShas = [];
-  let commit;
-  let size;
-  let screenshot;
-  let index = 0;
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
@@ -84,7 +87,6 @@ function log(message, ...others) {
   log(`Starting server on port :${port}...`);
   server.listen(port);
 
-  let screenshots = [];
   if (!existsSync(screenshotDir)) {
     log("Creating screenshot dir...");
     await fs.mkdir(screenshotDir);
@@ -103,6 +105,7 @@ function log(message, ...others) {
     if (alreadyScreenshotted) {
       log(`Commit ${sha}.png has already been snapshotted. Skipping...`);
       index++;
+      commitShas.push(commit.sha());
       return;
     }
 
@@ -200,23 +203,15 @@ function log(message, ...others) {
             screenshot.height
           );
         } catch (e) {
-          log(
-            `error diffing screenshots: `,
-            e,
-            JSON.stringify(
-              {
-                size,
-                prevSize: prevSize,
-              },
-              undefined,
-              2
-            )
-          );
+          log(`error diffing screenshots: `, e);
         }
       }
 
       if (differenceInPixels > CHANGE_THRESHOLD) {
         await fs.writeFile(screenshotFile, PNG.sync.write(screenshot), "utf-8");
+        maxWidth = Math.max(maxWidth, screenshot.width);
+        maxHeight = Math.max(maxHeight, screenshot.height);
+        commitShas.push(commit.sha());
         index++;
       } else {
         log(
@@ -231,7 +226,6 @@ function log(message, ...others) {
 
   history.on("commit", function collect(commit) {
     commits.push(commit);
-    commitShas.push(commit.sha());
   });
 
   history.on("end", async function process() {
@@ -256,6 +250,8 @@ function log(message, ...others) {
           commitsWithoutSourceChanges,
           commitsWithoutVisualChanges,
           orderedCommitShas: commitShas,
+          maxWidth,
+          maxHeight,
         },
         undefined,
         2
