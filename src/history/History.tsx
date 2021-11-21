@@ -4,6 +4,7 @@ import { ReactComponent as Sourcebits } from "./logos/sourcebits.svg";
 import { ReactComponent as Apple } from "./logos/apple.svg";
 import { ReactComponent as RiskMatch } from "./logos/riskmatch.svg";
 import { ReactComponent as Vertafore } from "./logos/vertafore.svg";
+import { ReactComponent as Cloudflare } from "./logos/cloudflare.svg";
 
 import "./history.scss";
 import { MouseEvent } from "react";
@@ -116,7 +117,7 @@ export const jobs = [
   },
   {
     name: "RiskMatch",
-    title: "UI Prototype Developer",
+    title: "UI Developer",
     start: "June 1 2016",
     end: "May 31 2017",
     Logo: RiskMatch,
@@ -142,12 +143,20 @@ export const jobs = [
     name: "Vertafore",
     title: "Principal Architect",
     start: "January 1 2021",
+    end: "November 5, 2021",
     Logo: Vertafore,
     notes: [
       "Promoted to core architecture group at parent company",
       "Oversaw UI development for entire company's portfolio of apps",
       "Consulted on all UI-related development company-wide",
     ],
+  },
+  {
+    name: "Cloudflare",
+    title: "Systems Engineer",
+    start: "November 8 2021",
+    Logo: Cloudflare,
+    notes: ["Just getting started"],
   },
 ];
 const jobsDescending = [...jobs].reverse();

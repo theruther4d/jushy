@@ -420,4 +420,10 @@ $img_size: 173px;
       fill: $primary;
     }
   }
+
+  .url {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+  }
 }

@@ -26,9 +26,8 @@ export function Hero() {
         </a>
       </header>
       <p className="content">
-        I’m a curiosity-driven developer with over 8 years of experience. I've
-        spent most of that time focused on building web apps and sites, and for
-        the last 5 years have worked primarily with React and Typescript.{" "}
+        I’m a curiosity-driven developer with over 8 years of experience. For
+        the last 5 years I've been working primarily with React and Typescript.{" "}
         {showMore ? null : (
           <button
             className="link noprint"

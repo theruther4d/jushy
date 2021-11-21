@@ -42,7 +42,7 @@ export function Stats() {
         <h3>Languages and Tools</h3>
         <p>
           React, Typescript, Node.js, HTML, CSS, Javascript, SCSS, D3.js,
-          Webpack, Rollup, MSW, Testing-library, Cypress, Puppeteer
+          Webpack, Rollup, MSW, Jest, Testing-library, Cypress, Puppeteer
         </p>
       </div>
     </section>
