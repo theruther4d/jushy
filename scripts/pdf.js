@@ -1,5 +1,4 @@
 const puppeteer = require("puppeteer");
-const { execSync } = require("child_process");
 const http = require("http");
 const handler = require("serve-handler");
 
